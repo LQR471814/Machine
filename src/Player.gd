@@ -25,17 +25,26 @@ onready var animationPlayer = $Animations
 onready var dashTimer = $DashTimer
 onready var dashEffectLeft = $DashEffectLeft
 onready var dashEffectRight = $DashEffectRight
+onready var helpGui = $Help
+
+var toggledHelp = -1
 
 func _ready():
 	crouchCollider.disabled = true
 	runCollider.disabled = false
 	get_node("Cooldowns/Container/Cooldowns/DashCooldown/DashMargin/DashCooldown").animation = "DashReady"
 	get_node("Cooldowns/Container/Cooldowns/DashCooldown/DashMargin/DashCooldown").speed_scale = 1
-#	get_node("Cooldowns/Container/Cooldowns/DashMargin/DashCooldown").texture.set_pause(true)
-#	get_node("Cooldowns/Container/Cooldowns/DashMargin/DashCooldown").texture.current_frame = 0
 
 func _physics_process(delta):
 	var input = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	
+	if Input.is_action_just_pressed("help"):
+		toggledHelp = toggledHelp * -1
+	
+	if toggledHelp > 0:
+		helpGui.visible = true
+	else:
+		helpGui.visible = false
 	
 	if dashedFrames != 0: #? If dashing
 		motion.x = DASH_FORCE * input / DASH_FRAMES
@@ -62,8 +71,6 @@ func _physics_process(delta):
 					dashTimer.start()
 					get_node("Cooldowns/Container/Cooldowns/DashCooldown/DashMargin/DashCooldown").speed_scale = float(11) / float(DASH_WAIT_TIME)
 					get_node("Cooldowns/Container/Cooldowns/DashCooldown/DashMargin/DashCooldown").animation = "DashCooldown"
-#					get_node("Cooldowns/Container/Cooldowns/DashMargin/DashCooldown").texture.fps = 11 / DASH_WAIT_TIME
-#					get_node("Cooldowns/Container/Cooldowns/DashMargin/DashCooldown").texture.set_pause(false)
 					dashedFrames = DASH_FRAMES
 			
 			runCollider.disabled = true

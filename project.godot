@@ -17,7 +17,7 @@ _global_script_class_icons={
 
 config/name="Machine"
 config/description="A game where you play as a robot."
-run/main_scene="res://Scene.tscn"
+run/main_scene="res://Client.tscn"
 
 [display]
 
@@ -31,5 +31,10 @@ window/stretch/aspect="keep"
 dash={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777238,"unicode":0,"echo":false,"script":null)
+ ]
+}
+help={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777244,"unicode":0,"echo":false,"script":null)
  ]
 }
