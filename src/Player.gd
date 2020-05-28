@@ -4,8 +4,8 @@ const ACCELERATION = 1024
 const MAX_SPEED = 150
 const FRICTION = 1
 const AIR_RESISTENCE = 0.1
-const GRAVITY = 200
-const JUMP_FORCE = 100
+const GRAVITY = 300
+const JUMP_FORCE = 120
 
 const DASH_FORCE = 5000
 const DASH_FRAMES = 10
