@@ -1,0 +1,298 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://Help.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/Menu.gd" type="Script" id=2]
+[ext_resource path="res://assets/fonts/FFFFORWA.TTF" type="DynamicFontData" id=7]
+
+[sub_resource type="DynamicFont" id=1]
+size = 32
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=2]
+extra_spacing_top = 1
+extra_spacing_bottom = 1
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=4]
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=5]
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 32
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 14
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 14
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=9]
+size = 14
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=10]
+size = 14
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=11]
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=12]
+extra_spacing_top = 3
+font_data = ExtResource( 7 )
+
+[node name="Menu" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Menu" type="MarginContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu"]
+margin_right = 176.0
+margin_bottom = 272.0
+
+[node name="Title" type="MarginContainer" parent="Menu/VBoxContainer"]
+margin_right = 176.0
+margin_bottom = 44.0
+
+[node name="Label" type="Label" parent="Menu/VBoxContainer/Title"]
+margin_right = 176.0
+margin_bottom = 44.0
+custom_fonts/font = SubResource( 1 )
+text = "Machine"
+
+[node name="Line" type="MarginContainer" parent="Menu/VBoxContainer"]
+margin_top = 48.0
+margin_right = 176.0
+margin_bottom = 48.0
+
+[node name="Line2D" type="Line2D" parent="Menu/VBoxContainer/Line"]
+position = Vector2( 1, -4 )
+points = PoolVector2Array( 196, -1, -3, -1 )
+width = 2.0
+default_color = Color( 1, 1, 1, 1 )
+
+[node name="SinglePlayerButton" type="MarginContainer" parent="Menu/VBoxContainer"]
+margin_top = 52.0
+margin_right = 176.0
+margin_bottom = 82.0
+
+[node name="Button" type="Button" parent="Menu/VBoxContainer/SinglePlayerButton"]
+margin_right = 176.0
+margin_bottom = 30.0
+custom_fonts/font = SubResource( 2 )
+text = "Singleplayer"
+
+[node name="MultiPlayerButton" type="MarginContainer" parent="Menu/VBoxContainer"]
+margin_top = 86.0
+margin_right = 176.0
+margin_bottom = 114.0
+
+[node name="Button" type="Button" parent="Menu/VBoxContainer/MultiPlayerButton"]
+margin_right = 176.0
+margin_bottom = 28.0
+custom_fonts/font = SubResource( 3 )
+text = "Multiplayer"
+
+[node name="ControlsButtonContainer" type="MarginContainer" parent="Menu/VBoxContainer"]
+margin_top = 118.0
+margin_right = 176.0
+margin_bottom = 146.0
+
+[node name="Button" type="Button" parent="Menu/VBoxContainer/ControlsButtonContainer"]
+margin_right = 176.0
+margin_bottom = 28.0
+custom_fonts/font = SubResource( 4 )
+text = "Controls"
+
+[node name="EmptySpace" type="MarginContainer" parent="Menu/VBoxContainer"]
+margin_top = 150.0
+margin_right = 176.0
+margin_bottom = 240.0
+rect_min_size = Vector2( 0, 90 )
+
+[node name="ExitButtonContainer" type="MarginContainer" parent="Menu/VBoxContainer"]
+margin_top = 244.0
+margin_right = 176.0
+margin_bottom = 272.0
+
+[node name="Button" type="Button" parent="Menu/VBoxContainer/ExitButtonContainer"]
+margin_right = 176.0
+margin_bottom = 28.0
+custom_fonts/font = SubResource( 5 )
+text = "Exit"
+
+[node name="MultiplayerDialog" type="MarginContainer" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MultiplayerDialog"]
+margin_right = 490.0
+margin_bottom = 272.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MultiplayerDialog/HBoxContainer"]
+margin_right = 240.0
+margin_bottom = 292.0
+
+[node name="LabelContainer" type="MarginContainer" parent="MultiplayerDialog/HBoxContainer/VBoxContainer"]
+margin_right = 240.0
+margin_bottom = 44.0
+
+[node name="Label" type="Label" parent="MultiplayerDialog/HBoxContainer/VBoxContainer/LabelContainer"]
+margin_right = 240.0
+margin_bottom = 44.0
+custom_fonts/font = SubResource( 6 )
+text = "Multiplayer"
+
+[node name="LineMargin" type="MarginContainer" parent="MultiplayerDialog/HBoxContainer/VBoxContainer"]
+margin_top = 48.0
+margin_right = 240.0
+margin_bottom = 58.0
+rect_min_size = Vector2( 0, 10 )
+
+[node name="Line2D" type="Line2D" parent="MultiplayerDialog/HBoxContainer/VBoxContainer/LineMargin"]
+position = Vector2( -2, 6 )
+points = PoolVector2Array( 0, 0, 246, 0 )
+width = 2.0
+default_color = Color( 1, 1, 1, 1 )
+
+[node name="IpInput" type="HBoxContainer" parent="MultiplayerDialog/HBoxContainer/VBoxContainer"]
+margin_top = 62.0
+margin_right = 240.0
+margin_bottom = 92.0
+
+[node name="Label" type="MarginContainer" parent="MultiplayerDialog/HBoxContainer/VBoxContainer/IpInput"]
+margin_right = 107.0
+margin_bottom = 30.0
+
+[node name="Label" type="Label" parent="MultiplayerDialog/HBoxContainer/VBoxContainer/IpInput/Label"]
+margin_top = 5.0
+margin_right = 107.0
+margin_bottom = 25.0
+custom_fonts/font = SubResource( 7 )
+text = "Ip Address: "
+
+[node name="IpInput" type="MarginContainer" parent="MultiplayerDialog/HBoxContainer/VBoxContainer/IpInput"]
+margin_left = 111.0
+margin_right = 181.0
+margin_bottom = 30.0
+
+[node name="LineEdit" type="LineEdit" parent="MultiplayerDialog/HBoxContainer/VBoxContainer/IpInput/IpInput"]
+margin_right = 70.0
+margin_bottom = 30.0
+custom_fonts/font = SubResource( 8 )
+max_length = 27
+expand_to_text_length = true
+caret_blink = true
+
+[node name="PortInput" type="HBoxContainer" parent="MultiplayerDialog/HBoxContainer/VBoxContainer"]
+margin_top = 96.0
+margin_right = 240.0
+margin_bottom = 126.0
+
+[node name="Label" type="MarginContainer" parent="MultiplayerDialog/HBoxContainer/VBoxContainer/PortInput"]
+margin_right = 51.0
+margin_bottom = 30.0
+
+[node name="Label" type="Label" parent="MultiplayerDialog/HBoxContainer/VBoxContainer/PortInput/Label"]
+margin_top = 5.0
+margin_right = 51.0
+margin_bottom = 25.0
+custom_fonts/font = SubResource( 9 )
+text = "Port: "
+
+[node name="PortInput" type="MarginContainer" parent="MultiplayerDialog/HBoxContainer/VBoxContainer/PortInput"]
+margin_left = 55.0
+margin_right = 125.0
+margin_bottom = 30.0
+
+[node name="LineEdit" type="LineEdit" parent="MultiplayerDialog/HBoxContainer/VBoxContainer/PortInput/PortInput"]
+margin_right = 70.0
+margin_bottom = 30.0
+custom_fonts/font = SubResource( 10 )
+
+[node name="BlankSpace" type="MarginContainer" parent="MultiplayerDialog/HBoxContainer/VBoxContainer"]
+margin_top = 130.0
+margin_right = 240.0
+margin_bottom = 240.0
+rect_min_size = Vector2( 0, 110 )
+
+[node name="JoinButton" type="MarginContainer" parent="MultiplayerDialog/HBoxContainer/VBoxContainer"]
+margin_top = 244.0
+margin_right = 240.0
+margin_bottom = 272.0
+
+[node name="Button" type="Button" parent="MultiplayerDialog/HBoxContainer/VBoxContainer/JoinButton"]
+margin_right = 240.0
+margin_bottom = 28.0
+custom_fonts/font = SubResource( 11 )
+text = "Join"
+
+[node name="EmptySpace" type="MarginContainer" parent="MultiplayerDialog/HBoxContainer"]
+margin_left = 244.0
+margin_right = 424.0
+margin_bottom = 292.0
+rect_min_size = Vector2( 180, 0 )
+
+[node name="BackButtonContainer" type="VBoxContainer" parent="MultiplayerDialog/HBoxContainer"]
+margin_left = 428.0
+margin_right = 490.0
+margin_bottom = 292.0
+
+[node name="BackButtonMargin" type="MarginContainer" parent="MultiplayerDialog/HBoxContainer/BackButtonContainer"]
+margin_right = 62.0
+margin_bottom = 31.0
+
+[node name="Button" type="Button" parent="MultiplayerDialog/HBoxContainer/BackButtonContainer/BackButtonMargin"]
+margin_right = 62.0
+margin_bottom = 31.0
+custom_fonts/font = SubResource( 12 )
+text = "Back"
+
+[node name="EmptySpace" type="MarginContainer" parent="MultiplayerDialog/HBoxContainer/BackButtonContainer"]
+margin_top = 35.0
+margin_right = 62.0
+margin_bottom = 225.0
+rect_min_size = Vector2( 0, 190 )
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+margin_right = 200.0
+margin_bottom = 70.0
+window_title = "Error"
+dialog_text = "Failed to connect to host"
+dialog_autowrap = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2( -10, -10 )
+anchor_mode = 0
+current = true
+zoom = Vector2( 0.4, 0.4 )
+
+[node name="Help" parent="." instance=ExtResource( 1 )]
+visible = false
+margin_left = 210.0
+margin_top = 0.0
+margin_right = 401.0
+margin_bottom = 71.0
+[connection signal="button_down" from="Menu/VBoxContainer/SinglePlayerButton/Button" to="." method="_on_Singleplayer_button_down"]
+[connection signal="button_down" from="Menu/VBoxContainer/MultiPlayerButton/Button" to="." method="_on_Multiplayer_button_down"]
+[connection signal="button_down" from="Menu/VBoxContainer/ControlsButtonContainer/Button" to="." method="_on_Controls_button_down"]
+[connection signal="button_down" from="Menu/VBoxContainer/ExitButtonContainer/Button" to="." method="_on_Exit_button_down"]
+[connection signal="button_down" from="MultiplayerDialog/HBoxContainer/VBoxContainer/JoinButton/Button" to="." method="_on_Join_button_down"]
+[connection signal="button_down" from="MultiplayerDialog/HBoxContainer/BackButtonContainer/BackButtonMargin/Button" to="." method="_on_Back_button_down"]
