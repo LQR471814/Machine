@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/items/sword_0/Sword_0.png" type="Texture" id=1]
+[ext_resource path="res://src/ItemScript.gd" type="Script" id=2]
+[ext_resource path="res://src/ItemRigidBody.gd" type="Script" id=3]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 8, 4 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 22, 4 )
+
+[node name="Item" type="RigidBody2D"]
+gravity_scale = 3.0
+script = ExtResource( 3 )
+scenePath = "res://items/Sword.tscn"
+spritePath = "res://assets/items/sword_0/Sword_0.png"
+durability = 100.0
+damage = 10.0
+
+[node name="Item" type="Area2D" parent="."]
+scale = Vector2( 0.75, 0.75 )
+collision_layer = 3
+collision_mask = 3
+script = ExtResource( 2 )
+
+[node name="Sprite" type="AnimatedSprite" parent="Item"]
+rotation = 0.785398
+frames = SubResource( 1 )
+
+[node name="Collision" type="CollisionShape2D" parent="Item"]
+scale = Vector2( 2, 2 )
+shape = SubResource( 2 )
+
+[node name="PhysicsCollision" type="CollisionShape2D" parent="."]
+scale = Vector2( 0.5, 0.5 )
+shape = SubResource( 3 )

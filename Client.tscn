@@ -54,6 +54,11 @@ color_ramp = SubResource( 4 )
 
 [sub_resource type="SpriteFrames" id=6]
 animations = [ {
+"frames": [ ExtResource( 30 ) ],
+"loop": true,
+"name": "Acceleration",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 9 ) ],
 "loop": true,
 "name": "Crouch",
@@ -68,11 +73,6 @@ animations = [ {
 "loop": true,
 "name": "Run",
 "speed": 8.0
-}, {
-"frames": [ ExtResource( 30 ) ],
-"loop": true,
-"name": "Acceleration",
-"speed": 5.0
 } ]
 
 [sub_resource type="Animation" id=7]
@@ -298,7 +298,6 @@ position = Vector2( 9, 7 )
 scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 9 )
 animation = "DashReady"
-frame = 2
 playing = true
 
 [node name="Empty_0" type="VBoxContainer" parent="Player/Cooldowns/Container/Cooldowns"]

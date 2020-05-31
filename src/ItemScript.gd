@@ -3,19 +3,15 @@ extends Area2D
 var itemObject
 
 func _ready():
-	#? Construct item index
-	var itemIndex = {}
-	var fObj = File.new()
-	fObj.open("res://items/index.json", fObj.READ)
-	itemIndex = parse_json(fObj.get_as_text())
-	fObj.close()
+	#? Construct object based off of item configuration
+	print(get_parent().scenePath)
+	itemObject = preload("res://src/Item.gd").new(get_parent().type, get_parent().durability, get_parent().damage, get_parent().spritePath, get_parent().held, get_parent().scenePath)
 	
-	#? Get item config file from item index
-	var itemConfig = {}
-	var itemFile = File.new()
-	itemFile.open(itemIndex[str(get_parent().itemID)], itemFile.READ)
-	itemConfig = parse_json(itemFile.get_as_text())
-	itemFile.close()
+	#? Misc Configuration
+	self.scale = Vector2(0.75, 0.75)
 	
-	itemObject = preload("res://src/Item.gd").new(itemConfig["type"], itemConfig["durability"], itemConfig["damage"], itemConfig["sprite"], Vector2(itemConfig["collisionShape"][0], itemConfig["collisionShape"][1]), itemConfig["held"])
+	#? Set correct collision layer
+	self.set_collision_layer_bit(1, true)
+	self.set_collision_mask_bit(1, true)
+	
 	self.connect("body_shape_entered", get_parent().get_parent().get_parent().get_parent().get_node("Player"), "handle_item_pickup", [self])

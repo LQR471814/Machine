@@ -219,46 +219,11 @@ func check_and_handle_item_drop(): #? Check and handle item drop
 			var n = 0 #? Item Dropped node name
 			while true:
 				if get_parent().find_node("Items/" + str(n)) == null: #? if name n is availible
-					#? Init nodes
-					var itemPhysics = RigidBody2D.new()
-					var rigidBodyCollision = CollisionShape2D.new()
-					var rigidBodyCollisionShape = RectangleShape2D.new()
+					var item = load(itemBar[selected_item].scene).instance()
+					item.scenePath = itemBar[selected_item].scene
+					item.position = self.position
 					
-					var itemNode = Area2D.new()
-					var collisionNode = CollisionShape2D.new()
-					var collisionShape = RectangleShape2D.new()
-					var animatedSprite = AnimatedSprite.new()
-					var spriteFrames = SpriteFrames.new()
-					
-					#? Add sprite node
-					spriteFrames.add_frame("default", load(itemBar[selected_item].sprite), 0)
-					animatedSprite.frames = spriteFrames
-					
-					#? Add item collision node
-					collisionShape.extents = Vector2(8, 8)
-					collisionNode.shape = collisionShape
-					
-					#? Add Area2D Item node
-					itemNode.name = "Item"
-					itemNode.scale = Vector2(0.75, 0.75)
-					itemNode.set_script(load("res://src/ItemScript.gd"))
-					itemNode.set_collision_layer_bit(1, true)
-					itemNode.set_collision_mask_bit(1, true)
-					
-					itemNode.add_child(animatedSprite)
-					itemNode.add_child(collisionNode)
-					
-					#? Item Physics
-					rigidBodyCollisionShape.extents = itemBar[selected_item].collisionShape
-					rigidBodyCollision.shape = rigidBodyCollisionShape
-					
-					itemPhysics.add_child(itemNode)
-					itemPhysics.add_child(rigidBodyCollision)
-					itemPhysics.position = self.position
-					itemPhysics.set_script(load("res://src/ItemRigidBody.gd"))
-					itemPhysics.itemID = int(itemBar[selected_item].type)
-					
-					get_parent().get_node("Map").add_item(itemPhysics)
+					get_parent().get_node("Map").add_item(item)
 					pickupImmunity = PICKUP_IMMUNITY
 					break
 				

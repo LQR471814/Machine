@@ -7,12 +7,12 @@ var type : int
 var durability : float
 var damage : float
 var sprite : String
-var collisionShape : Vector2
+var scene : String
 
-func _init(init_type : int, init_dura : float, init_damage : float, init_sprite : String, init_collisionShape : Vector2, init_held : bool):
+func _init(init_type : int, init_dura : float, init_damage : float, init_sprite : String, init_held : bool, init_scene : String):
 	type = init_type
 	held = init_held
 	durability = init_dura
 	damage = init_damage
 	sprite = init_sprite
-	collisionShape = init_collisionShape
+	scene = init_scene
