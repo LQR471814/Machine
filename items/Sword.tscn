@@ -13,10 +13,10 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 8, 4 )
+extents = Vector2( 9.33333, 6.66667 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 22, 4 )
+extents = Vector2( 19.903, 5.23107 )
 
 [node name="Item" type="RigidBody2D"]
 gravity_scale = 3.0
@@ -41,5 +41,6 @@ scale = Vector2( 2, 2 )
 shape = SubResource( 2 )
 
 [node name="PhysicsCollision" type="CollisionShape2D" parent="."]
+position = Vector2( 0.0484962, 0.581933 )
 scale = Vector2( 0.5, 0.5 )
 shape = SubResource( 3 )

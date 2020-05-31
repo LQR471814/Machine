@@ -1,7 +1,9 @@
 extends Node2D
 
+export var spawnLocale : Vector2
+
 func _ready():
-	pass
+	get_parent().get_node("Player").position = spawnLocale
 
 func add_item(node):
 	get_node("Items").add_child(node)
