@@ -1,10 +1,6 @@
-[gd_scene load_steps=78 format=2]
+[gd_scene load_steps=48 format=2]
 
-[ext_resource path="res://assets/tiles/Staircase_1/Staircase_1-2.png" type="Texture" id=1]
-[ext_resource path="res://assets/tiles/Block_1/Block_1.png" type="Texture" id=2]
-[ext_resource path="res://assets/tiles/Staircase_1/Staircase_1-3.png" type="Texture" id=3]
-[ext_resource path="res://assets/tiles/Staircase_1/Staircase_1-0.png" type="Texture" id=4]
-[ext_resource path="res://assets/tiles/Staircase_1/Staircase_1-1.png" type="Texture" id=5]
+[ext_resource path="res://maps/default/default.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/sprites/robot/moveset/run/robot_run-5.png" type="Texture" id=6]
 [ext_resource path="res://Help.tscn" type="PackedScene" id=7]
 [ext_resource path="res://assets/sprites/robot/effects/dash_left.png" type="Texture" id=8]
@@ -33,304 +29,41 @@
 [ext_resource path="res://assets/gui/dashcooldown/cooldown/Dash_Cooldown-8.png" type="Texture" id=31]
 [ext_resource path="res://src/Client.gd" type="Script" id=32]
 [ext_resource path="res://assets/gui/empty_item/empty_item.png" type="Texture" id=33]
-[ext_resource path="res://assets/items/test/test_item.png" type="Texture" id=34]
-[ext_resource path="res://src/ItemScript.gd" type="Script" id=35]
 [ext_resource path="res://assets/gui/select_item/select_item.png" type="Texture" id=36]
-[ext_resource path="res://assets/items/sword/Sword_0.png" type="Texture" id=37]
 
-[sub_resource type="ConvexPolygonShape2D" id=1]
-points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
-
-[sub_resource type="ConvexPolygonShape2D" id=2]
-points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
-
-[sub_resource type="ConvexPolygonShape2D" id=3]
-points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
-
-[sub_resource type="ConvexPolygonShape2D" id=4]
-points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
-
-[sub_resource type="ConvexPolygonShape2D" id=5]
-points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
-
-[sub_resource type="ConvexPolygonShape2D" id=6]
-points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
-
-[sub_resource type="ConvexPolygonShape2D" id=7]
-points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
-
-[sub_resource type="ConvexPolygonShape2D" id=8]
-points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
-
-[sub_resource type="ConvexPolygonShape2D" id=9]
-points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
-
-[sub_resource type="ConvexPolygonShape2D" id=10]
-points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
-
-[sub_resource type="ConvexPolygonShape2D" id=11]
-points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
-
-[sub_resource type="ConvexPolygonShape2D" id=12]
-points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
-
-[sub_resource type="ConvexPolygonShape2D" id=13]
-points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
-
-[sub_resource type="ConvexPolygonShape2D" id=14]
-points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
-
-[sub_resource type="ConvexPolygonShape2D" id=15]
-points = PoolVector2Array( 0, 16, 16, 0, 16, 16, 0, 16, 0, 16 )
-
-[sub_resource type="ConvexPolygonShape2D" id=16]
-points = PoolVector2Array( 0, 0, 16, 16, 0, 16, 0, 0 )
-
-[sub_resource type="ConvexPolygonShape2D" id=17]
-points = PoolVector2Array( 0, 0, 16, 0, 16, 16 )
-
-[sub_resource type="ConvexPolygonShape2D" id=18]
-points = PoolVector2Array( 16, 0, 0, 16, 0, 0, 16, 0 )
-
-[sub_resource type="TileSet" id=19]
-0/name = "Block_1.png 0"
-0/texture = ExtResource( 2 )
-0/tex_offset = Vector2( 0, 0 )
-0/modulate = Color( 1, 1, 1, 1 )
-0/region = Rect2( 0, 0, 224, 32 )
-0/tile_mode = 1
-0/autotile/bitmask_mode = 2
-0/autotile/bitmask_flags = [ Vector2( 0, 0 ), 16, Vector2( 1, 0 ), 432, Vector2( 2, 0 ), 27, Vector2( 3, 0 ), 216, Vector2( 4, 0 ), 54, Vector2( 5, 0 ), 56, Vector2( 6, 0 ), 146, Vector2( 7, 0 ), 511, Vector2( 8, 0 ), 504, Vector2( 9, 0 ), 63, Vector2( 10, 0 ), 438, Vector2( 11, 0 ), 219, Vector2( 12, 0 ), 24, Vector2( 13, 0 ), 48 ]
-0/autotile/icon_coordinate = Vector2( 0, 0 )
-0/autotile/tile_size = Vector2( 16, 16 )
-0/autotile/spacing = 0
-0/autotile/occluder_map = [  ]
-0/autotile/navpoly_map = [  ]
-0/autotile/priority_map = [  ]
-0/autotile/z_index_map = [  ]
-0/occluder_offset = Vector2( 0, 0 )
-0/navigation_offset = Vector2( 0, 0 )
-0/shape_offset = Vector2( 0, 0 )
-0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-0/shape = SubResource( 1 )
-0/shape_one_way = false
-0/shape_one_way_margin = 1.0
-0/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 1 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-}, {
-"autotile_coord": Vector2( 1, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 2 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-}, {
-"autotile_coord": Vector2( 2, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 3 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-}, {
-"autotile_coord": Vector2( 3, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 4 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-}, {
-"autotile_coord": Vector2( 4, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 5 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-}, {
-"autotile_coord": Vector2( 5, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 6 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-}, {
-"autotile_coord": Vector2( 6, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 7 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-}, {
-"autotile_coord": Vector2( 7, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 8 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-}, {
-"autotile_coord": Vector2( 8, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 9 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-}, {
-"autotile_coord": Vector2( 9, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 10 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-}, {
-"autotile_coord": Vector2( 10, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 11 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-}, {
-"autotile_coord": Vector2( 11, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 12 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-}, {
-"autotile_coord": Vector2( 12, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 13 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-}, {
-"autotile_coord": Vector2( 13, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 14 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-0/z_index = 0
-1/name = "Staircase_1-0.png 1"
-1/texture = ExtResource( 4 )
-1/tex_offset = Vector2( 0, 0 )
-1/modulate = Color( 1, 1, 1, 1 )
-1/region = Rect2( 0, 0, 16, 16 )
-1/tile_mode = 0
-1/occluder_offset = Vector2( 0, 0 )
-1/navigation_offset = Vector2( 0, 0 )
-1/shape_offset = Vector2( 0, 0 )
-1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-1/shape = SubResource( 15 )
-1/shape_one_way = false
-1/shape_one_way_margin = 1.0
-1/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 15 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-1/z_index = 0
-2/name = "Staircase_1-1.png 2"
-2/texture = ExtResource( 5 )
-2/tex_offset = Vector2( 0, 0 )
-2/modulate = Color( 1, 1, 1, 1 )
-2/region = Rect2( 0, 0, 16, 16 )
-2/tile_mode = 0
-2/occluder_offset = Vector2( 0, 0 )
-2/navigation_offset = Vector2( 0, 0 )
-2/shape_offset = Vector2( 0, 0 )
-2/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-2/shape = SubResource( 16 )
-2/shape_one_way = false
-2/shape_one_way_margin = 1.0
-2/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 16 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-2/z_index = 0
-3/name = "Staircase_1-2.png 3"
-3/texture = ExtResource( 1 )
-3/tex_offset = Vector2( 0, 0 )
-3/modulate = Color( 1, 1, 1, 1 )
-3/region = Rect2( 0, 0, 16, 16 )
-3/tile_mode = 0
-3/occluder_offset = Vector2( 0, 0 )
-3/navigation_offset = Vector2( 0, 0 )
-3/shape_offset = Vector2( 0, 0 )
-3/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-3/shape = SubResource( 17 )
-3/shape_one_way = false
-3/shape_one_way_margin = 1.0
-3/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 17 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-3/z_index = 0
-4/name = "Staircase_1-3.png 4"
-4/texture = ExtResource( 3 )
-4/tex_offset = Vector2( 0, 0 )
-4/modulate = Color( 1, 1, 1, 1 )
-4/region = Rect2( 0, 0, 16, 16 )
-4/tile_mode = 0
-4/occluder_offset = Vector2( 0, 0 )
-4/navigation_offset = Vector2( 0, 0 )
-4/shape_offset = Vector2( 0, 0 )
-4/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-4/shape = SubResource( 18 )
-4/shape_one_way = false
-4/shape_one_way_margin = 1.0
-4/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 18 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-4/z_index = 0
-
-[sub_resource type="SpriteFrames" id=40]
-animations = [ {
-"frames": [ ExtResource( 37 ) ],
-"loop": true,
-"name": "default",
-"speed": 5.0
-} ]
-
-[sub_resource type="RectangleShape2D" id=39]
-extents = Vector2( 6, 6 )
-
-[sub_resource type="RectangleShape2D" id=38]
-extents = Vector2( 14.1519, 2.77905 )
-
-[sub_resource type="SpriteFrames" id=37]
-animations = [ {
-"frames": [ ExtResource( 34 ) ],
-"loop": true,
-"name": "default",
-"speed": 5.0
-} ]
-
-[sub_resource type="CapsuleShape2D" id=20]
+[sub_resource type="CapsuleShape2D" id=1]
 radius = 5.0
 height = 12.0
 
-[sub_resource type="CapsuleShape2D" id=21]
+[sub_resource type="CapsuleShape2D" id=2]
 radius = 5.0
 height = 8.0
 
-[sub_resource type="Gradient" id=22]
+[sub_resource type="Gradient" id=3]
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1 )
 
-[sub_resource type="GradientTexture" id=23]
-gradient = SubResource( 22 )
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
 
-[sub_resource type="ParticlesMaterial" id=24]
+[sub_resource type="ParticlesMaterial" id=5]
 flag_disable_z = true
 gravity = Vector3( 0, 0, 0 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-color_ramp = SubResource( 23 )
+color_ramp = SubResource( 4 )
 
-[sub_resource type="SpriteFrames" id=25]
+[sub_resource type="SpriteFrames" id=6]
 animations = [ {
+"frames": [ ExtResource( 9 ) ],
+"loop": true,
+"name": "Crouch",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 12 ) ],
+"loop": true,
+"name": "Fall",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 27 ), ExtResource( 11 ), ExtResource( 15 ), ExtResource( 6 ) ],
 "loop": true,
 "name": "Run",
@@ -340,19 +73,9 @@ animations = [ {
 "loop": true,
 "name": "Acceleration",
 "speed": 5.0
-}, {
-"frames": [ ExtResource( 12 ) ],
-"loop": true,
-"name": "Fall",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 9 ) ],
-"loop": true,
-"name": "Crouch",
-"speed": 5.0
 } ]
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=7]
 length = 0.5
 loop = true
 tracks/0/type = "value"
@@ -368,11 +91,11 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, -1 ), Vector2( 0, 0 ), Vector2( 0, 1 ), Vector2( 0, 0 ), Vector2( 0, 1 ) ]
 }
 
-[sub_resource type="DynamicFont" id=27]
+[sub_resource type="DynamicFont" id=8]
 size = 8
 font_data = ExtResource( 21 )
 
-[sub_resource type="SpriteFrames" id=28]
+[sub_resource type="SpriteFrames" id=9]
 animations = [ {
 "frames": [ ExtResource( 22 ), ExtResource( 17 ), ExtResource( 10 ) ],
 "loop": true,
@@ -385,7 +108,7 @@ animations = [ {
 "speed": 1.0
 } ]
 
-[sub_resource type="SpriteFrames" id=29]
+[sub_resource type="SpriteFrames" id=10]
 animations = [ {
 "frames": [ ExtResource( 18 ) ],
 "loop": true,
@@ -393,11 +116,11 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="DynamicFont" id=30]
+[sub_resource type="DynamicFont" id=11]
 size = 8
 font_data = ExtResource( 21 )
 
-[sub_resource type="SpriteFrames" id=31]
+[sub_resource type="SpriteFrames" id=12]
 animations = [ {
 "frames": [ ExtResource( 33 ) ],
 "loop": true,
@@ -410,7 +133,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="SpriteFrames" id=32]
+[sub_resource type="SpriteFrames" id=13]
 animations = [ {
 "frames": [ ExtResource( 33 ) ],
 "loop": true,
@@ -423,7 +146,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="SpriteFrames" id=33]
+[sub_resource type="SpriteFrames" id=14]
 animations = [ {
 "frames": [ ExtResource( 33 ) ],
 "loop": true,
@@ -436,7 +159,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="SpriteFrames" id=34]
+[sub_resource type="SpriteFrames" id=15]
 animations = [ {
 "frames": [ ExtResource( 33 ) ],
 "loop": true,
@@ -449,7 +172,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="SpriteFrames" id=35]
+[sub_resource type="SpriteFrames" id=16]
 animations = [ {
 "frames": [ ExtResource( 33 ) ],
 "loop": true,
@@ -462,7 +185,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="SpriteFrames" id=36]
+[sub_resource type="SpriteFrames" id=17]
 animations = [ {
 "frames": [ ExtResource( 33 ) ],
 "loop": true,
@@ -478,99 +201,7 @@ animations = [ {
 [node name="World" type="Node2D"]
 script = ExtResource( 32 )
 
-[node name="TileMap" type="TileMap" parent="."]
-position = Vector2( 0, 3 )
-tile_set = SubResource( 19 )
-cell_size = Vector2( 16, 16 )
-collision_use_kinematic = true
-collision_layer = 3
-collision_mask = 3
-format = 1
-tile_data = PoolIntArray( -524304, 1, 0, -524303, 0, 0, -524302, 0, 5, -524301, 0, 5, -524300, 0, 5, -524299, 0, 5, -524298, 0, 12, -524297, 2, 0, -589816, 1, 0, -589815, 0, 13, -589814, 0, 5, -589813, 0, 5, -589812, 0, 5, -589811, 0, 5, -589810, 0, 0, -589809, 2, 0, -458769, 1, 0, -458768, 0, 0, -458767, 4, 0, -458761, 3, 0, -458760, 0, 0, -458759, 2, 0, -524282, 1, 0, -524281, 0, 0, -524280, 4, 0, -524274, 3, 0, -524273, 0, 0, -524272, 2, 0, -393233, 0, 0, -393232, 4, 0, -458737, 3, 0, -458736, 0, 0, -327697, 0, 6, -327683, 1, 0, -327682, 0, 0, -393215, 0, 0, -393214, 2, 0, -393200, 0, 6, -262161, 0, 6, -262150, 1, 0, -262149, 0, 13, -262148, 0, 5, -262147, 0, 0, -327678, 0, 0, -327677, 0, 5, -327676, 0, 12, -327675, 2, 0, -327664, 0, 6, -196625, 0, 6, -196618, 1, 0, -196617, 0, 13, -196616, 0, 12, -262137, 0, 13, -262136, 0, 12, -262135, 2, 0, -262128, 0, 6, -131089, 0, 6, -131085, 1, 0, -131084, 0, 0, -196597, 0, 0, -196596, 2, 0, -196592, 0, 6, -65553, 0, 0, -65552, 2, 0, -131057, 1, 0, -131056, 0, 0, -17, 3, 0, -16, 0, 0, -15, 2, 0, -65522, 1, 0, -65521, 0, 0, -65520, 4, 0, 65520, 3, 0, 65521, 0, 0, 65522, 2, 0, 13, 1, 0, 14, 0, 0, 15, 4, 0, 131057, 3, 0, 131058, 0, 0, 131059, 0, 5, 131060, 0, 5, 131061, 0, 5, 131062, 0, 5, 131063, 0, 0, 131064, 2, 0, 131069, 0, 13, 131070, 0, 12, 65537, 0, 13, 65538, 0, 12, 65543, 1, 0, 65544, 0, 0, 65545, 0, 5, 65546, 0, 5, 65547, 0, 5, 65548, 0, 5, 65549, 0, 0, 65550, 4, 0, 196599, 3, 0, 196600, 0, 0, 196601, 2, 0, 131078, 1, 0, 131079, 0, 0, 131080, 4, 0, 262136, 3, 0, 262137, 0, 0, 262138, 2, 0, 196613, 1, 0, 196614, 0, 0, 196615, 4, 0, 327673, 3, 0, 327674, 0, 0, 327675, 2, 0, 262148, 1, 0, 262149, 0, 0, 262150, 4, 0, 393210, 3, 0, 393211, 0, 0, 393212, 2, 0, 327683, 1, 0, 327684, 0, 0, 327685, 4, 0, 458747, 3, 0, 458748, 0, 0, 458749, 0, 5, 458750, 0, 5, 458751, 0, 5, 393216, 0, 5, 393217, 0, 5, 393218, 0, 5, 393219, 0, 0, 393220, 4, 0 )
-
-[node name="Items" type="Node2D" parent="."]
-
-[node name="Item4" type="RigidBody2D" parent="Items"]
-position = Vector2( -26, -197 )
-
-[node name="Item" type="Area2D" parent="Items/Item4"]
-position = Vector2( 0, 90 )
-scale = Vector2( 0.5, 0.5 )
-collision_layer = 3
-collision_mask = 3
-script = ExtResource( 35 )
-
-[node name="Sprite" type="AnimatedSprite" parent="Items/Item4/Item"]
-frames = SubResource( 40 )
-
-[node name="Collision" type="CollisionShape2D" parent="Items/Item4/Item"]
-scale = Vector2( 2, 2 )
-shape = SubResource( 39 )
-
-[node name="PhysicsCollision" type="CollisionShape2D" parent="Items/Item4"]
-position = Vector2( 0, 90 )
-rotation = -0.788889
-scale = Vector2( 0.5, 0.5 )
-shape = SubResource( 38 )
-
-[node name="Item3" type="RigidBody2D" parent="Items"]
-position = Vector2( 134, -86 )
-
-[node name="Item" type="Area2D" parent="Items/Item3"]
-position = Vector2( 0, 90 )
-scale = Vector2( 0.5, 0.5 )
-collision_layer = 3
-collision_mask = 3
-script = ExtResource( 35 )
-
-[node name="Sprite" type="AnimatedSprite" parent="Items/Item3/Item"]
-frames = SubResource( 37 )
-
-[node name="Collision" type="CollisionShape2D" parent="Items/Item3/Item"]
-shape = SubResource( 38 )
-
-[node name="PhysicsCollision" type="CollisionShape2D" parent="Items/Item3"]
-position = Vector2( 0, 90 )
-shape = SubResource( 39 )
-
-[node name="Item2" type="RigidBody2D" parent="Items"]
-
-[node name="Item" type="Area2D" parent="Items/Item2"]
-position = Vector2( 0, 90 )
-scale = Vector2( 0.5, 0.5 )
-collision_layer = 3
-collision_mask = 3
-script = ExtResource( 35 )
-
-[node name="Sprite" type="AnimatedSprite" parent="Items/Item2/Item"]
-frames = SubResource( 37 )
-
-[node name="Collision" type="CollisionShape2D" parent="Items/Item2/Item"]
-shape = SubResource( 38 )
-
-[node name="PhysicsCollision" type="CollisionShape2D" parent="Items/Item2"]
-position = Vector2( 0, 90 )
-shape = SubResource( 39 )
-
-[node name="Item1" type="RigidBody2D" parent="Items"]
-position = Vector2( -141, -84 )
-
-[node name="Item" type="Area2D" parent="Items/Item1"]
-position = Vector2( 0, 90 )
-scale = Vector2( 0.5, 0.5 )
-collision_layer = 3
-collision_mask = 3
-script = ExtResource( 35 )
-
-[node name="Sprite" type="AnimatedSprite" parent="Items/Item1/Item"]
-frames = SubResource( 37 )
-
-[node name="Collision" type="CollisionShape2D" parent="Items/Item1/Item"]
-shape = SubResource( 38 )
-
-[node name="PhysicsCollision" type="CollisionShape2D" parent="Items/Item1"]
-position = Vector2( 0, 90 )
-shape = SubResource( 39 )
+[node name="Map" parent="." instance=ExtResource( 1 )]
 
 [node name="Player" type="KinematicBody2D" parent="."]
 position = Vector2( 0, 3 )
@@ -580,10 +211,10 @@ script = ExtResource( 26 )
 
 [node name="RunCollision" type="CollisionShape2D" parent="Player"]
 position = Vector2( 0, -1 )
-shape = SubResource( 20 )
+shape = SubResource( 1 )
 
 [node name="CrouchCollision" type="CollisionShape2D" parent="Player"]
-shape = SubResource( 21 )
+shape = SubResource( 2 )
 
 [node name="DashEffectRight" type="Particles2D" parent="Player"]
 emitting = false
@@ -591,7 +222,7 @@ amount = 40
 preprocess = 1.0
 speed_scale = 2.0
 local_coords = false
-process_material = SubResource( 24 )
+process_material = SubResource( 5 )
 texture = ExtResource( 23 )
 
 [node name="DashEffectLeft" type="Particles2D" parent="Player"]
@@ -600,7 +231,7 @@ amount = 40
 preprocess = 1.0
 speed_scale = 2.0
 local_coords = false
-process_material = SubResource( 24 )
+process_material = SubResource( 5 )
 texture = ExtResource( 8 )
 
 [node name="Camera" type="Camera2D" parent="Player"]
@@ -610,13 +241,13 @@ smoothing_enabled = true
 smoothing_speed = 10.0
 
 [node name="Sprite" type="AnimatedSprite" parent="Player"]
-frames = SubResource( 25 )
+frames = SubResource( 6 )
 animation = "Acceleration"
 
 [node name="ItemSprite" type="Sprite" parent="Player"]
 
 [node name="Animations" type="AnimationPlayer" parent="Player"]
-anims/Run = SubResource( 26 )
+anims/Run = SubResource( 7 )
 
 [node name="DashTimer" type="Timer" parent="Player"]
 
@@ -640,7 +271,7 @@ margin_bottom = 11.0
 [node name="Label" type="Label" parent="Player/Cooldowns/Container/LabelMargin"]
 margin_right = 176.0
 margin_bottom = 11.0
-custom_fonts/font = SubResource( 27 )
+custom_fonts/font = SubResource( 8 )
 text = "Abilities"
 
 [node name="MarginContainer" type="MarginContainer" parent="Player/Cooldowns/Container"]
@@ -665,9 +296,9 @@ margin_bottom = 19.0
 [node name="DashCooldown" type="AnimatedSprite" parent="Player/Cooldowns/Container/Cooldowns/DashCooldown/DashMargin"]
 position = Vector2( 9, 7 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 28 )
+frames = SubResource( 9 )
 animation = "DashReady"
-frame = 1
+frame = 2
 playing = true
 
 [node name="Empty_0" type="VBoxContainer" parent="Player/Cooldowns/Container/Cooldowns"]
@@ -679,7 +310,7 @@ margin_right = 4.0
 [node name="Empty_0" type="AnimatedSprite" parent="Player/Cooldowns/Container/Cooldowns/Empty_0/EmptyMargin"]
 position = Vector2( 23, 7 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 29 )
+frames = SubResource( 10 )
 animation = "empty"
 
 [node name="Empty_1" type="VBoxContainer" parent="Player/Cooldowns/Container/Cooldowns"]
@@ -691,7 +322,7 @@ margin_right = 8.0
 [node name="Empty_0" type="AnimatedSprite" parent="Player/Cooldowns/Container/Cooldowns/Empty_1/EmptyMargin"]
 position = Vector2( 37, 7 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 29 )
+frames = SubResource( 10 )
 animation = "empty"
 
 [node name="Help" parent="Player" instance=ExtResource( 7 )]
@@ -721,7 +352,7 @@ margin_bottom = 11.0
 [node name="Label" type="Label" parent="Player/Items/Margin/Label"]
 margin_right = 40.0
 margin_bottom = 11.0
-custom_fonts/font = SubResource( 30 )
+custom_fonts/font = SubResource( 11 )
 text = "Items"
 
 [node name="Line" type="MarginContainer" parent="Player/Items/Margin"]
@@ -743,7 +374,7 @@ margin_bottom = 19.0
 
 [node name="Item" type="AnimatedSprite" parent="Player/Items/Margin/ItemSlots/Item0"]
 position = Vector2( 10, 10 )
-frames = SubResource( 31 )
+frames = SubResource( 12 )
 animation = "empty"
 
 [node name="Texture" type="Sprite" parent="Player/Items/Margin/ItemSlots/Item0"]
@@ -755,7 +386,7 @@ margin_right = 4.0
 
 [node name="Item" type="AnimatedSprite" parent="Player/Items/Margin/ItemSlots/Item1"]
 position = Vector2( 23, 10 )
-frames = SubResource( 32 )
+frames = SubResource( 13 )
 animation = "empty"
 
 [node name="Texture" type="Sprite" parent="Player/Items/Margin/ItemSlots/Item1"]
@@ -767,7 +398,7 @@ margin_right = 8.0
 
 [node name="Item" type="AnimatedSprite" parent="Player/Items/Margin/ItemSlots/Item2"]
 position = Vector2( 36, 10 )
-frames = SubResource( 33 )
+frames = SubResource( 14 )
 animation = "empty"
 
 [node name="Texture" type="Sprite" parent="Player/Items/Margin/ItemSlots/Item2"]
@@ -779,7 +410,7 @@ margin_right = 12.0
 
 [node name="Item" type="AnimatedSprite" parent="Player/Items/Margin/ItemSlots/Item3"]
 position = Vector2( 49, 10 )
-frames = SubResource( 34 )
+frames = SubResource( 15 )
 animation = "empty"
 
 [node name="Texture" type="Sprite" parent="Player/Items/Margin/ItemSlots/Item3"]
@@ -791,7 +422,7 @@ margin_right = 16.0
 
 [node name="Item" type="AnimatedSprite" parent="Player/Items/Margin/ItemSlots/Item4"]
 position = Vector2( 62, 10 )
-frames = SubResource( 35 )
+frames = SubResource( 16 )
 animation = "empty"
 
 [node name="Texture" type="Sprite" parent="Player/Items/Margin/ItemSlots/Item4"]
@@ -803,7 +434,7 @@ margin_right = 20.0
 
 [node name="Item" type="AnimatedSprite" parent="Player/Items/Margin/ItemSlots/Item5"]
 position = Vector2( 75, 10 )
-frames = SubResource( 36 )
+frames = SubResource( 17 )
 animation = "empty"
 
 [node name="Texture" type="Sprite" parent="Player/Items/Margin/ItemSlots/Item5"]

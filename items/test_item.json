@@ -1,0 +1,10 @@
+{
+    "held": false,
+    "type": -1,
+    "durability": -1,
+    "damage": -1,
+    "sprite": "res://assets/items/test/test_item.png",
+    "itemCollision":[4, 4],
+    "physicsCollision":[2, 4],
+    "spriteRotation":45
+}

@@ -202,9 +202,10 @@ func pick_up_item(item_node): #? Process item pickup
 	if i == 6:
 		return
 		
-	get_parent().get_node("Items").remove_child(item_node.get_parent())
+	get_parent().get_node("Map").remove_item(item_node.get_parent())
 	
 	get_node("Items/Margin/ItemSlots/Item" + str(i) + "/Texture").texture = load(item_node.itemObject.sprite)
+	get_node("Items/Margin/ItemSlots/Item" + str(i) + "/Texture").scale = Vector2(0.75, 0.75)
 
 func handle_item_pickup(_body_id, _body, _body_shape, _area_shape, node):
 	if _body == self:
@@ -239,7 +240,7 @@ func check_and_handle_item_drop(): #? Check and handle item drop
 					
 					#? Add Area2D Item node
 					itemNode.name = "Item"
-					itemNode.scale = Vector2(0.5, 0.5)
+					itemNode.scale = Vector2(0.75, 0.75)
 					itemNode.set_script(load("res://src/ItemScript.gd"))
 					itemNode.set_collision_layer_bit(1, true)
 					itemNode.set_collision_mask_bit(1, true)
@@ -254,8 +255,10 @@ func check_and_handle_item_drop(): #? Check and handle item drop
 					itemPhysics.add_child(itemNode)
 					itemPhysics.add_child(rigidBodyCollision)
 					itemPhysics.position = self.position
+					itemPhysics.set_script(load("res://src/ItemRigidBody.gd"))
+					itemPhysics.itemID = int(itemBar[selected_item].type)
 					
-					get_parent().get_node("Items").add_child(itemPhysics)
+					get_parent().get_node("Map").add_item(itemPhysics)
 					pickupImmunity = PICKUP_IMMUNITY
 					break
 				

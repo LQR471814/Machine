@@ -1,0 +1,10 @@
+{
+    "held": true,
+    "type": 0,
+    "durability": 100,
+    "damage": 10,
+    "sprite": "res://assets/items/sword_0/sword_0.png",
+    "itemCollision":[4, 4],
+    "physicsCollision":[22, 4],
+    "spriteRotation":45
+}
