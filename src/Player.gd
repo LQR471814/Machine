@@ -97,8 +97,14 @@ func _process(delta):
 			runCollider.disabled = true
 			crouchCollider.disabled = false
 			
+			handItemSprite.get_node("Animations").play("idle")
+			
 			if input != 0:
 				sprite.flip_h = input < 0
+			
+			if sprite.flip_h == true:
+				handItemSprite.position.x = handItemSprite.position.x * -1
+			
 			sprite.animation = "Crouch"
 			sprite.playing = true
 			
@@ -124,6 +130,8 @@ func _process(delta):
 						sprite.animation = "Acceleration"
 						sprite.playing = false
 						
+						if sprite.flip_h == true:
+							handItemSprite.position.x = handItemSprite.position.x * -1
 						handItemSprite.get_node("Animations").play("idle")
 						
 				#? Disable crouch hitbox
@@ -146,8 +154,8 @@ func _process(delta):
 					sprite.playing = true
 					animationPlayer.play("Run")
 					
-					if sprite.flip_h == true:
-						handItemSprite.position.x = handItemSprite.position.x * -1 
+					if (input < 0) == true and motion.x != 0:
+						handItemSprite.position.x = handItemSprite.position.x * -1
 					handItemSprite.get_node("Animations").play("run")
 					
 					backItemSprite.flip_h = input < 0
@@ -160,21 +168,31 @@ func _process(delta):
 					motion.y = float(-JUMP_FORCE)/2.0
 				
 				if input != 0: #? If user moved left or right
-			#		motion.x += input * ACCELERATION * delta
 					motion.x = input * MAX_SPEED
 						
 					sprite.flip_h = input < 0 #? Flip sprite according to direction
 					backItemSprite.flip_h = input < 0
+					if (input < 0) == true and motion.x != 0:
+						handItemSprite.position.x = handItemSprite.position.x * -1
+				else:
+					if sprite.flip_h == true:
+						handItemSprite.position.x = handItemSprite.position.x * -1
 				
 				if motion.y + (GRAVITY * delta) < FALL_THRESH: #? Short fall
 					sprite.animation = "Run"
 					sprite.frame = 0
 					sprite.playing = false
+					
+					handItemSprite.get_node("Animations").stop()
+					handItemSprite.get_node("Animations").current_animation = "run"
+					handItemSprite.get_node("Animations").seek(0)
 				else: #? Long fall
 					sprite.animation = "Fall"
 					sprite.frame = 0
 					sprite.playing = false
 					
+					handItemSprite.get_node("Animations").stop()
+					handItemSprite.get_node("Animations").play("fall")
 				motion.x = lerp(motion.x, 0, AIR_RESISTENCE)
 	
 		motion.y += GRAVITY * delta #? Apply gravity
