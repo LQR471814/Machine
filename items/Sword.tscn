@@ -23,7 +23,7 @@ gravity_scale = 3.0
 script = ExtResource( 3 )
 scenePath = "res://items/Sword.tscn"
 spritePath = "res://assets/items/sword_0/Sword_0.png"
-held = true
+onBack = true
 durability = 100.0
 damage = 10.0
 

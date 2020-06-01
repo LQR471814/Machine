@@ -102,8 +102,10 @@ func _process(delta):
 			if input != 0:
 				sprite.flip_h = input < 0
 			
+			handItemSprite.flip_h = input < 0
 			if sprite.flip_h == true:
 				handItemSprite.position.x = handItemSprite.position.x * -1
+				handItemSprite.flip_h = true
 			
 			sprite.animation = "Crouch"
 			sprite.playing = true
@@ -131,6 +133,7 @@ func _process(delta):
 						sprite.playing = false
 						
 						if sprite.flip_h == true:
+							handItemSprite.flip_h = true
 							handItemSprite.position.x = handItemSprite.position.x * -1
 						handItemSprite.get_node("Animations").play("idle")
 						
@@ -154,6 +157,8 @@ func _process(delta):
 					sprite.playing = true
 					animationPlayer.play("Run")
 					
+					handItemSprite.flip_h = input < 0
+					
 					if (input < 0) == true and motion.x != 0:
 						handItemSprite.position.x = handItemSprite.position.x * -1
 					handItemSprite.get_node("Animations").play("run")
@@ -172,11 +177,18 @@ func _process(delta):
 						
 					sprite.flip_h = input < 0 #? Flip sprite according to direction
 					backItemSprite.flip_h = input < 0
+					
 					if (input < 0) == true and motion.x != 0:
+						handItemSprite.flip_h = true
 						handItemSprite.position.x = handItemSprite.position.x * -1
+					else:
+						handItemSprite.flip_h = false
 				else:
 					if sprite.flip_h == true:
+						handItemSprite.flip_h = true
 						handItemSprite.position.x = handItemSprite.position.x * -1
+					else:
+						handItemSprite.flip_h = false
 				
 				if motion.y + (GRAVITY * delta) < FALL_THRESH: #? Short fall
 					sprite.animation = "Run"

@@ -407,7 +407,7 @@ position = Vector2( 9, 7 )
 scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 12 )
 animation = "DashReady"
-frame = 2
+frame = 1
 playing = true
 
 [node name="Empty_0" type="VBoxContainer" parent="Player/Cooldowns/Container/Cooldowns"]

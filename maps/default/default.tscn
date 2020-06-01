@@ -272,11 +272,8 @@ tile_data = PoolIntArray( -524304, 1, 0, -524303, 0, 0, -524302, 0, 5, -524301, 
 
 [node name="Items" type="Node2D" parent="."]
 
-[node name="sword" parent="Items" instance=ExtResource( 1 )]
-position = Vector2( 150, 4 )
-held = false
-onBack = true
-
-[node name="test_item" parent="Items" instance=ExtResource( 7 )]
+[node name="Item" parent="Items" instance=ExtResource( 7 )]
 position = Vector2( -136, -1 )
-held = true
+
+[node name="Item2" parent="Items" instance=ExtResource( 1 )]
+position = Vector2( 150, 4 )
