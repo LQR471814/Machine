@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://items/Sword.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/tiles/Block_1/Block_1.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://assets/tiles/Staircase_1/Staircase_1-1.png" type="Texture" id=5]
 [ext_resource path="res://assets/tiles/Staircase_1/Staircase_1-3.png" type="Texture" id=6]
 [ext_resource path="res://items/test.tscn" type="PackedScene" id=7]
+[ext_resource path="res://enemies/Enemy_Weak.tscn" type="PackedScene" id=8]
 [ext_resource path="res://src/Map.gd" type="Script" id=9]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
@@ -277,3 +278,7 @@ position = Vector2( -136, -1 )
 
 [node name="Item2" parent="Items" instance=ExtResource( 1 )]
 position = Vector2( 150, 4 )
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Enemy" parent="Enemies" instance=ExtResource( 8 )]
