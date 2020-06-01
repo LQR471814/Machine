@@ -23,7 +23,6 @@ gravity_scale = 3.0
 script = ExtResource( 3 )
 scenePath = "res://items/test.tscn"
 spritePath = "res://assets/items/test/test_item.png"
-held = true
 type = -1
 durability = -1.0
 damage = -1.0

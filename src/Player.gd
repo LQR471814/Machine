@@ -29,6 +29,8 @@ onready var dashTimer = $DashTimer
 onready var dashEffectLeft = $DashEffectLeft
 onready var dashEffectRight = $DashEffectRight
 onready var helpGui = $Help
+onready var backItemSprite = $BackItemSprite
+onready var handItemSprite = $HandItemSprite
 
 var invSlotActions = ["inv_slot_0", "inv_slot_1", "inv_slot_2", "inv_slot_3", "inv_slot_4", "inv_slot_5"]
 var toggledHelp = -1
@@ -54,6 +56,7 @@ func _process(delta):
 	var itemSwitch = checkForItemSwitch() #? Check for item slot switch
 	if itemSwitch != -1: #? If item slot switch is true then switch item slot
 		switchItem(itemSwitch)
+		setItemSprite()
 	
 	if Input.is_action_just_pressed("help"): #? Check for toggle help
 		toggledHelp = toggledHelp * -1
@@ -114,14 +117,15 @@ func _process(delta):
 					sprite.frame = 2
 					sprite.playing = false
 					animationPlayer.stop()
+					
 				else: #? If not jumping
-		#			if motion.x == MAX_SPEED or motion.x > MAX_SPEED - SPRINT_THRESH or motion.x == -MAX_SPEED or motion.x < -MAX_SPEED + SPRINT_THRESH: #? If running
-		#				sprite.animation = "Run"
 				
-					if motion.x == 0: #? If Still
+					if motion.x == 0: #? If Still / idle
 						sprite.animation = "Acceleration"
 						sprite.playing = false
-				
+						
+						handItemSprite.get_node("Animations").play("idle")
+						
 				#? Disable crouch hitbox
 				crouchCollider.disabled = true
 				runCollider.disabled = false
@@ -134,9 +138,6 @@ func _process(delta):
 				
 				#? Movement Handler
 				if input != 0: #? If user moved left or right
-			#		motion.x += input * ACCELERATION * delta
-			#		motion.x = clamp(motion.x, -MAX_SPEED, MAX_SPEED)
-					
 					motion.x = input * MAX_SPEED
 					
 					#? Replace crouch visuals with run visuals if running
@@ -144,9 +145,17 @@ func _process(delta):
 					sprite.animation = "Run"
 					sprite.playing = true
 					animationPlayer.play("Run")
+					
+					if sprite.flip_h == true:
+						handItemSprite.position.x = handItemSprite.position.x * -1 
+					handItemSprite.get_node("Animations").play("run")
+					
+					backItemSprite.flip_h = input < 0
+					
+					
 			else: #? If airborne
 				animationPlayer.stop()
-					
+				
 				if Input.is_action_just_released("ui_up") and motion.y < float(-JUMP_FORCE)/2.0:
 					motion.y = float(-JUMP_FORCE)/2.0
 				
@@ -155,6 +164,7 @@ func _process(delta):
 					motion.x = input * MAX_SPEED
 						
 					sprite.flip_h = input < 0 #? Flip sprite according to direction
+					backItemSprite.flip_h = input < 0
 				
 				if motion.y + (GRAVITY * delta) < FALL_THRESH: #? Short fall
 					sprite.animation = "Run"
@@ -206,6 +216,7 @@ func pick_up_item(item_node): #? Process item pickup
 	
 	get_node("Items/Margin/ItemSlots/Item" + str(i) + "/Texture").texture = load(item_node.itemObject.sprite)
 	get_node("Items/Margin/ItemSlots/Item" + str(i) + "/Texture").scale = Vector2(0.75, 0.75)
+	setItemSprite()
 
 func handle_item_pickup(_body_id, _body, _body_shape, _area_shape, node):
 	if _body == self:
@@ -228,11 +239,29 @@ func check_and_handle_item_drop(): #? Check and handle item drop
 					break
 				
 			itemBar[selected_item] = null
+			setItemSprite()
 
 func _on_DashTimer_timeout():
 	canDash = true
 	get_node("Cooldowns/Container/Cooldowns/DashCooldown/DashMargin/DashCooldown").speed_scale = 1
 	get_node("Cooldowns/Container/Cooldowns/DashCooldown/DashMargin/DashCooldown").animation = "DashReady"
+
+func setItemSprite():
+	if itemBar[selected_item] != null:
+		if itemBar[selected_item].onBack == true:
+			var itemTexture = load(itemBar[selected_item].sprite)
+			handItemSprite.texture = null
+			backItemSprite.texture = itemTexture
+		elif itemBar[selected_item].held == true:
+			var itemTexture = load(itemBar[selected_item].sprite)
+			backItemSprite.texture = null
+			handItemSprite.texture = itemTexture
+		else:
+			backItemSprite.texture = null
+			handItemSprite.texture = null
+	else:
+		backItemSprite.texture = null
+		handItemSprite.texture = null
 
 func init(init_socket):
 	playerSocket = init_socket
