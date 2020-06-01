@@ -407,6 +407,7 @@ position = Vector2( 9, 7 )
 scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 12 )
 animation = "DashReady"
+frame = 2
 playing = true
 
 [node name="Empty_0" type="VBoxContainer" parent="Player/Cooldowns/Container/Cooldowns"]
@@ -436,9 +437,9 @@ animation = "empty"
 [node name="Help" parent="Player" instance=ExtResource( 7 )]
 visible = false
 margin_left = -165.0
-margin_top = 8.0
+margin_top = -15.0
 margin_right = 26.0
-margin_bottom = 79.0
+margin_bottom = 86.0
 
 [node name="Items" type="MarginContainer" parent="Player"]
 margin_left = -169.0
