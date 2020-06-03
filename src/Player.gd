@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+signal PlayerCollide(motionVector)
+
 const ACCELERATION = 1024
 const MAX_SPEED = 150
 const FRICTION = 1
@@ -20,6 +22,8 @@ const PICKUP_IMMUNITY = 20
 var motion = Vector2.ZERO
 var canDash = true
 var playerSocket = null
+var exitedCollisions = false
+var quit = false
 
 onready var sprite = $Sprite
 onready var runCollider = $RunCollision
@@ -31,6 +35,7 @@ onready var dashEffectRight = $DashEffectRight
 onready var helpGui = $Help
 onready var backItemSprite = $BackItemSprite
 onready var handItemSprite = $HandItemSprite
+onready var collisionDirection = $CollisionDirection
 
 var invSlotActions = ["inv_slot_0", "inv_slot_1", "inv_slot_2", "inv_slot_3", "inv_slot_4", "inv_slot_5"]
 var toggledHelp = -1
@@ -44,6 +49,11 @@ func _ready():
 	get_node("Cooldowns/Container/Cooldowns/DashCooldown/DashMargin/DashCooldown").animation = "DashReady"
 	get_node("Cooldowns/Container/Cooldowns/DashCooldown/DashMargin/DashCooldown").speed_scale = 1
 	switchItem(selected_item)
+	
+	#? Raycast exceptions
+	collisionDirection.add_exception(get_parent().get_node("Map/TileMap"))
+	for child in get_parent().get_node("Map/Items").get_children():
+		collisionDirection.add_exception(child)
 
 func _process(delta):
 	var input = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
@@ -86,6 +96,7 @@ func _process(delta):
 						dashEffectLeft.emitting = true
 					
 					sprite.flip_h = input < 0 #? Flip sprite according to direction
+					flipRays(input)
 					motion.x = DASH_FORCE * input / DASH_FRAMES #? Apply dash force
 					canDash = false
 					dashTimer.wait_time = DASH_WAIT_TIME
@@ -101,6 +112,7 @@ func _process(delta):
 			
 			if input != 0:
 				sprite.flip_h = input < 0
+				flipRays(input)
 			
 			handItemSprite.flip_h = input < 0
 			if sprite.flip_h == true:
@@ -153,6 +165,7 @@ func _process(delta):
 					
 					#? Replace crouch visuals with run visuals if running
 					sprite.flip_h = input < 0 #? Flip sprite according to direction
+					flipRays(input)
 					sprite.animation = "Run"
 					sprite.playing = true
 					animationPlayer.play("Run")
@@ -176,6 +189,7 @@ func _process(delta):
 					motion.x = input * MAX_SPEED
 						
 					sprite.flip_h = input < 0 #? Flip sprite according to direction
+					flipRays(input)
 					backItemSprite.flip_h = input < 0
 					
 					if (input < 0) == true and motion.x != 0:
@@ -209,7 +223,11 @@ func _process(delta):
 	
 		motion.y += GRAVITY * delta #? Apply gravity
 	
-	motion = move_and_slide(motion, Vector2.UP)
+	if exitedCollisions == false: #? Send Collision to enemy
+		if collisionDirection.is_colliding():
+			emit_signal("PlayerCollide", motion)
+	
+	motion = move_and_slide(motion, Vector2.UP, false, 4, 0.785398, false)
 
 func checkForItemSwitch():
 	var i = 0
@@ -293,5 +311,16 @@ func setItemSprite():
 		backItemSprite.texture = null
 		handItemSprite.texture = null
 
+func flipRays(input):
+	collisionDirection.scale.x = input
+
 func init(init_socket):
 	playerSocket = init_socket
+
+func _on_Collisions_body_shape_entered(_body_id, body, _body_shape, _area_shape):
+	if get_parent().get_node("Map/Enemies").find_node(body.name):
+		exitedCollisions = false
+
+func _on_Collisions_body_shape_exited(_body_id, body, _body_shape, _area_shape):
+	if get_parent().get_node("Map/Enemies").find_node(body.name):
+		exitedCollisions = true

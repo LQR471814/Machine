@@ -6,7 +6,7 @@
 [ext_resource path="res://src/Enemy_Weak.gd" type="Script" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 8, 11 )
+extents = Vector2( 8, 12 )
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -18,8 +18,8 @@ animations = [ {
 
 [node name="Enemy" type="KinematicBody2D"]
 scale = Vector2( 0.75, 0.75 )
-collision_layer = 3
-collision_mask = 3
+collision_layer = 2
+collision_mask = 2
 script = ExtResource( 4 )
 
 [node name="Collision" type="CollisionShape2D" parent="."]
@@ -29,3 +29,9 @@ shape = SubResource( 1 )
 [node name="Sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
 animation = "run"
+
+[node name="PushDetector" type="Area2D" parent="."]
+
+[node name="Collision" type="CollisionShape2D" parent="PushDetector"]
+position = Vector2( 0, 1.33333 )
+shape = SubResource( 1 )
