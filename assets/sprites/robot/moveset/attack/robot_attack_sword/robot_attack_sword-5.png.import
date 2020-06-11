@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/weak_enemy_run-1.png-d6be1d58ef0167c716d1a7275b4a178d.stex"
+path="res://.import/robot_attack_sword-5.png-c14f32f4a759fd55700d5a3db693fbed.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/weak_enemy/run/weak_enemy_run-1.png"
-dest_files=[ "res://.import/weak_enemy_run-1.png-d6be1d58ef0167c716d1a7275b4a178d.stex" ]
+source_file="res://assets/sprites/robot/moveset/attack/robot_attack_sword/robot_attack_sword-5.png"
+dest_files=[ "res://.import/robot_attack_sword-5.png-c14f32f4a759fd55700d5a3db693fbed.stex" ]
 
 [params]
 

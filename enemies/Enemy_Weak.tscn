@@ -1,37 +1,70 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://assets/sprites/weak_enemy/run/weak_enemy_run-1.png" type="Texture" id=1]
-[ext_resource path="res://assets/sprites/weak_enemy/run/weak_enemy_run-0.png" type="Texture" id=2]
-[ext_resource path="res://assets/sprites/weak_enemy/run/weak_enemy_run-2.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/enemy/run/enemy_run-1.png" type="Texture" id=1]
+[ext_resource path="res://assets/sprites/enemy/run/enemy_run-0.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/enemy/crouch/enemy_crouch.png" type="Texture" id=3]
 [ext_resource path="res://src/Enemy_Weak.gd" type="Script" id=4]
+[ext_resource path="res://assets/sprites/enemy/idle/enemy_idle.png" type="Texture" id=5]
+[ext_resource path="res://assets/sprites/enemy/run/enemy_run-3.png" type="Texture" id=6]
+[ext_resource path="res://assets/sprites/enemy/run/enemy_run-2.png" type="Texture" id=7]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 8, 12 )
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 5.33333
+height = 10.6667
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 2 ), ExtResource( 1 ), ExtResource( 3 ) ],
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 1 ), ExtResource( 7 ), ExtResource( 6 ) ],
 "loop": true,
 "name": "run",
-"speed": 6.0
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "crouch",
+"speed": 5.0
 } ]
 
+[sub_resource type="CapsuleShape2D" id=4]
+radius = 5.54705
+height = 10.0456
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 10.6292, 18.7818 )
+
 [node name="Enemy" type="KinematicBody2D"]
-scale = Vector2( 0.75, 0.75 )
 collision_layer = 2
 collision_mask = 2
 script = ExtResource( 4 )
 
 [node name="Collision" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 0.9721 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
-animation = "run"
+animation = "idle"
+
+[node name="Collider" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="Collision" type="CollisionShape2D" parent="Collider"]
+position = Vector2( 0, -0.41578 )
+shape = SubResource( 4 )
 
 [node name="PushDetector" type="Area2D" parent="."]
 
 [node name="Collision" type="CollisionShape2D" parent="PushDetector"]
-position = Vector2( 0, 1.33333 )
 shape = SubResource( 1 )
+
+[node name="AttackHitbox" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="Collision" type="CollisionShape2D" parent="AttackHitbox"]
+shape = SubResource( 3 )

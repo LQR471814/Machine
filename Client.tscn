@@ -1,6 +1,10 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=66 format=2]
 
 [ext_resource path="res://maps/default/default.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/sprites/robot/moveset/attack/robot_attack_sword/robot_attack_sword-0.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/robot/moveset/attack/robot_attack_sword/robot_attack_sword-1.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/robot/moveset/attack/robot_attack_sword/robot_attack_sword-4.png" type="Texture" id=4]
+[ext_resource path="res://assets/sprites/robot/moveset/attack/robot_attack_sword/robot_attack_sword-2.png" type="Texture" id=5]
 [ext_resource path="res://assets/sprites/robot/moveset/run/robot_run-5.png" type="Texture" id=6]
 [ext_resource path="res://Help.tscn" type="PackedScene" id=7]
 [ext_resource path="res://assets/sprites/robot/effects/dash_left.png" type="Texture" id=8]
@@ -29,7 +33,16 @@
 [ext_resource path="res://assets/gui/dashcooldown/cooldown/Dash_Cooldown-8.png" type="Texture" id=31]
 [ext_resource path="res://src/Client.gd" type="Script" id=32]
 [ext_resource path="res://assets/gui/empty_item/empty_item.png" type="Texture" id=33]
+[ext_resource path="res://assets/sprites/robot/moveset/attack/robot_attack_sword/robot_attack_sword-3.png" type="Texture" id=34]
+[ext_resource path="res://assets/sprites/robot/moveset/attack/robot_attack_sword/robot_attack_sword-6.png" type="Texture" id=35]
 [ext_resource path="res://assets/gui/select_item/select_item.png" type="Texture" id=36]
+[ext_resource path="res://assets/sprites/robot/moveset/attack/robot_attack_sword/robot_attack_sword-5.png" type="Texture" id=37]
+[ext_resource path="res://assets/particles/spark_0/spark_0-1.png" type="Texture" id=38]
+[ext_resource path="res://assets/particles/spark_0/spark_0-4.png" type="Texture" id=39]
+[ext_resource path="res://assets/particles/spark_0/spark_0-5.png" type="Texture" id=40]
+[ext_resource path="res://assets/particles/spark_0/spark_0-0.png" type="Texture" id=41]
+[ext_resource path="res://assets/particles/spark_0/spark_0-2.png" type="Texture" id=42]
+[ext_resource path="res://assets/particles/spark_0/spark_0-3.png" type="Texture" id=43]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 5.0
@@ -54,9 +67,14 @@ color_ramp = SubResource( 4 )
 
 [sub_resource type="SpriteFrames" id=6]
 animations = [ {
-"frames": [ ExtResource( 30 ) ],
+"frames": [ ExtResource( 12 ) ],
 "loop": true,
-"name": "Acceleration",
+"name": "Fall",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 9 ) ],
+"loop": true,
+"name": "Crouch",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 27 ), ExtResource( 11 ), ExtResource( 15 ), ExtResource( 6 ) ],
@@ -64,15 +82,15 @@ animations = [ {
 "name": "Run",
 "speed": 8.0
 }, {
-"frames": [ ExtResource( 9 ) ],
+"frames": [ ExtResource( 30 ) ],
 "loop": true,
-"name": "Crouch",
+"name": "Acceleration",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 12 ) ],
-"loop": true,
-"name": "Fall",
-"speed": 5.0
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 5 ), ExtResource( 34 ), ExtResource( 4 ), ExtResource( 37 ), ExtResource( 35 ) ],
+"loop": false,
+"name": "Sword_attack",
+"speed": 32.0
 } ]
 
 [sub_resource type="Animation" id=7]
@@ -299,6 +317,23 @@ animations = [ {
 radius = 6.0
 height = 10.0
 
+[sub_resource type="Animation" id=22]
+resource_name = "spark"
+length = 0.375
+step = 0.063
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.063, 0.126, 0.189, 0.252, 0.315 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 41 ), ExtResource( 38 ), ExtResource( 42 ), ExtResource( 43 ), ExtResource( 39 ), ExtResource( 40 ) ]
+}
+
 [node name="World" type="Node2D"]
 script = ExtResource( 32 )
 
@@ -413,6 +448,7 @@ position = Vector2( 9, 7 )
 scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 12 )
 animation = "DashReady"
+frame = 2
 playing = true
 
 [node name="Empty_0" type="VBoxContainer" parent="Player/Cooldowns/Container/Cooldowns"]
@@ -567,6 +603,22 @@ shape = SubResource( 21 )
 enabled = true
 cast_to = Vector2( 10, 0 )
 collision_mask = 2
+
+[node name="AttackRay" type="RayCast2D" parent="Player"]
+position = Vector2( 0, -3 )
+enabled = true
+cast_to = Vector2( 20, 0 )
+collision_mask = 3
+collide_with_areas = true
+
+[node name="HitParticles" type="Sprite" parent="."]
+visible = false
+position = Vector2( 0, 3 )
+texture = ExtResource( 41 )
+
+[node name="animation" type="AnimationPlayer" parent="HitParticles"]
+anims/spark = SubResource( 22 )
 [connection signal="timeout" from="Player/DashTimer" to="Player" method="_on_DashTimer_timeout"]
 [connection signal="body_shape_entered" from="Player/Collisions" to="Player" method="_on_Collisions_body_shape_entered"]
 [connection signal="body_shape_exited" from="Player/Collisions" to="Player" method="_on_Collisions_body_shape_exited"]
+[connection signal="animation_finished" from="HitParticles/animation" to="Player" method="_on_hitParticles_animation_finished"]

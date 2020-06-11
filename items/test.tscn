@@ -27,6 +27,7 @@ held = true
 type = -1
 durability = -1.0
 damage = -1.0
+item_category = "STATIC"
 
 [node name="Item" type="Area2D" parent="."]
 scale = Vector2( 0.75, 0.75 )

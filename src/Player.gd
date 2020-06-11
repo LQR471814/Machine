@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
-signal PlayerCollide(motionVector)
+signal PlayerCollide(motionVector, target_node)
+signal PlayerAttack(inflicted_knockback, target_node)
 
 const ACCELERATION = 1024
 const MAX_SPEED = 150
@@ -13,7 +14,14 @@ const DASH_FORCE = 5000
 const DASH_UP_FORCE = 30
 const DASH_FRAMES = 10
 const FALL_THRESH = 100
+const ATTACK_FRAMES = 10
+const MELEE_KNOCKBACK = Vector2(200, 50)
 var dashedFrames = 0
+var attackFrames = 0
+var attacking = false
+var hit = false
+var enemies = []
+var currentTargetedEnemy
 
 const SPRINT_THRESH = 20
 const DASH_WAIT_TIME = 2
@@ -36,6 +44,9 @@ onready var helpGui = $Help
 onready var backItemSprite = $BackItemSprite
 onready var handItemSprite = $HandItemSprite
 onready var collisionDirection = $CollisionDirection
+onready var attackRay = $AttackRay
+onready var raycasts = [$CollisionDirection, $AttackRay]
+onready var hitParticles = get_parent().get_node("HitParticles")
 
 var invSlotActions = ["inv_slot_0", "inv_slot_1", "inv_slot_2", "inv_slot_3", "inv_slot_4", "inv_slot_5"]
 var toggledHelp = -1
@@ -51,11 +62,15 @@ func _ready():
 	switchItem(selected_item)
 	
 	#? Raycast exceptions
-	collisionDirection.add_exception(get_parent().get_node("Map/TileMap"))
-	for child in get_parent().get_node("Map/Items").get_children():
-		collisionDirection.add_exception(child)
+	for ray in raycasts:
+		ray.add_exception(get_parent().get_node("Map/TileMap"))
+		ray.add_exception(get_node("Collisions"))
+		for child in get_parent().get_node("Map/Items").get_children():
+			ray.add_exception(child)
+	for child in get_parent().get_node("Map/Enemies").get_children():
+		enemies.append(child)
 
-func _process(delta):
+func _physics_process(delta):
 	var input = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	
 	check_and_handle_item_drop()
@@ -63,10 +78,26 @@ func _process(delta):
 	if pickupImmunity > 0: #? Subtract 1 frame from pickup immunity time
 		pickupImmunity -= 1
 	
+	if attacking == true: #? If attacking
+		if attackFrames != 0: #? If currently attacking
+			attackFrame(delta, input)
+			return
+		else: #? If finished attack sequence
+			attacking = false
+			hit = false
+			currentTargetedEnemy = null
+			backItemSprite.show()
+	
 	var itemSwitch = checkForItemSwitch() #? Check for item slot switch
 	if itemSwitch != -1: #? If item slot switch is true then switch item slot
 		switchItem(itemSwitch)
 		setItemSprite()
+	
+	if Input.is_action_just_pressed("attack"): #? Check for attack
+		attacking = onAttack(itemBar[selected_item], input)
+		if attacking == true: #? If hit
+			attackFrames = ATTACK_FRAMES
+			return
 	
 	if Input.is_action_just_pressed("help"): #? Check for toggle help
 		toggledHelp = toggledHelp * -1
@@ -77,11 +108,8 @@ func _process(delta):
 		helpGui.visible = false
 	
 	if dashedFrames != 0: #? If dashing
-		motion.x = DASH_FORCE * input / DASH_FRAMES
-		motion.y += GRAVITY * delta / 2#? Apply gravity
-		motion.y -= float(DASH_UP_FORCE) / float(DASH_FRAMES)
-		dashedFrames -= 1
-	else: #? If not dashing
+		dashFrame(input, delta)
+	else: #? If not dashing / finished dash
 		dashEffectLeft.emitting = false
 		dashEffectRight.emitting = false
 
@@ -90,20 +118,7 @@ func _process(delta):
 			
 			if canDash == true:
 				if Input.is_action_pressed("dash") and Input.is_action_pressed("ui_left") or Input.is_action_pressed("dash") and Input.is_action_pressed("ui_right"): #? If user dashed	
-					if input > 0:
-						dashEffectRight.emitting = true
-					else:
-						dashEffectLeft.emitting = true
-					
-					sprite.flip_h = input < 0 #? Flip sprite according to direction
-					flipRays(input)
-					motion.x = DASH_FORCE * input / DASH_FRAMES #? Apply dash force
-					canDash = false
-					dashTimer.wait_time = DASH_WAIT_TIME
-					dashTimer.start()
-					get_node("Cooldowns/Container/Cooldowns/DashCooldown/DashMargin/DashCooldown").speed_scale = float(11) / float(DASH_WAIT_TIME)
-					get_node("Cooldowns/Container/Cooldowns/DashCooldown/DashMargin/DashCooldown").animation = "DashCooldown"
-					dashedFrames = DASH_FRAMES
+					onDash(input)
 			
 			runCollider.disabled = true
 			crouchCollider.disabled = false
@@ -224,8 +239,10 @@ func _process(delta):
 		motion.y += GRAVITY * delta #? Apply gravity
 	
 	if exitedCollisions == false: #? Send Collision to enemy
-		if collisionDirection.is_colliding():
-			emit_signal("PlayerCollide", motion)
+		for enemy in enemies:
+			if collisionDirection.get_collider() == enemy:
+				emit_signal("PlayerCollide", motion, enemy)
+				break
 	
 	motion = move_and_slide(motion, Vector2.UP, false, 4, 0.785398, false)
 
@@ -246,8 +263,6 @@ func switchItem(item_index):
 		get_node("Items/Margin/ItemSlots/Item" + str(i) + "/Item").animation = "empty"
 	selected_item = item_index
 	get_node("Items/Margin/ItemSlots/Item" + str(item_index) + "/Item").animation = "selected"
-	
-#	get_node("ItemSprite")
 
 func pick_up_item(item_node): #? Process item pickup
 	var i = 0
@@ -294,6 +309,58 @@ func _on_DashTimer_timeout():
 	get_node("Cooldowns/Container/Cooldowns/DashCooldown/DashMargin/DashCooldown").speed_scale = 1
 	get_node("Cooldowns/Container/Cooldowns/DashCooldown/DashMargin/DashCooldown").animation = "DashReady"
 
+func onDash(input):
+	if input > 0:
+		dashEffectRight.emitting = true
+	else:
+		dashEffectLeft.emitting = true
+	
+	sprite.flip_h = input < 0 #? Flip sprite according to direction
+	flipRays(input)
+	motion.x = DASH_FORCE * input / DASH_FRAMES #? Apply dash force
+	canDash = false
+	dashTimer.wait_time = DASH_WAIT_TIME
+	dashTimer.start()
+	get_node("Cooldowns/Container/Cooldowns/DashCooldown/DashMargin/DashCooldown").speed_scale = float(11) / float(DASH_WAIT_TIME)
+	get_node("Cooldowns/Container/Cooldowns/DashCooldown/DashMargin/DashCooldown").animation = "DashCooldown"
+	dashedFrames = DASH_FRAMES
+
+func onAttack(item, input):
+	if item == null:
+		return false
+	match item.category:
+		0: #? If category is STATIC item
+			return false
+		1: #? If category is MELEE_WEAPON
+			backItemSprite.hide()
+			animationPlayer.stop()
+			sprite.frame = 0
+			sprite.animation = "Sword_attack"
+			sprite.playing = true
+			
+			for enemy in enemies:
+				if attackRay.get_collider() == enemy.get_node("AttackHitbox"): #? If attack is successful
+					currentTargetedEnemy = enemy
+					hit = true
+					hitParticles.position = enemy.position
+					hitParticles.show()
+					hitParticles.get_node("animation").play("spark")
+					if input != 0: #? If player is moving
+						emit_signal("PlayerAttack", MELEE_KNOCKBACK * input, enemy)
+					else: #? If player is standing still
+						if sprite.flip_h == true: #? If player is going left
+							emit_signal("PlayerAttack", MELEE_KNOCKBACK * -1, enemy)
+						else: #? If player is going right
+							emit_signal("PlayerAttack", MELEE_KNOCKBACK, enemy)
+					break
+			return true
+
+func dashFrame(input, delta):
+	motion.x = DASH_FORCE * input / DASH_FRAMES
+	motion.y += GRAVITY * delta / 2#? Apply gravity
+	motion.y -= float(DASH_UP_FORCE) / float(DASH_FRAMES)
+	dashedFrames -= 1
+
 func setItemSprite():
 	if itemBar[selected_item] != null:
 		if itemBar[selected_item].onBack == true:
@@ -311,16 +378,41 @@ func setItemSprite():
 		backItemSprite.texture = null
 		handItemSprite.texture = null
 
+func attackFrame(delta, input):
+	if currentTargetedEnemy != null:
+		hitParticles.position = currentTargetedEnemy.position
+	
+	attackFrames -= 1
+	
+	if input == 0: #? If no input (Friction applier)
+		motion.x = lerp(motion.x, 0, FRICTION)
+		
+	if is_on_floor():
+		if Input.is_action_just_pressed("ui_up"): #? If jumping
+			motion.y = -JUMP_FORCE
+	
+	if hit == true:
+		motion.x = input * MAX_SPEED / 3
+	else:
+		motion.x = input * MAX_SPEED
+	
+	motion.y += GRAVITY * delta #? Apply gravity
+	motion = move_and_slide(motion, Vector2.UP, false, 4, 0.785398, false)
+
 func flipRays(input):
 	collisionDirection.scale.x = input
+	attackRay.scale.x = input
 
 func init(init_socket):
 	playerSocket = init_socket
 
-func _on_Collisions_body_shape_entered(_body_id, body, _body_shape, _area_shape):
+func _on_Collisions_body_shape_entered(_body_id, body, _body_shape, _area_shape): #? Entered collision
 	if get_parent().get_node("Map/Enemies").find_node(body.name):
 		exitedCollisions = false
 
-func _on_Collisions_body_shape_exited(_body_id, body, _body_shape, _area_shape):
+func _on_Collisions_body_shape_exited(_body_id, body, _body_shape, _area_shape): #? Exited collision
 	if get_parent().get_node("Map/Enemies").find_node(body.name):
 		exitedCollisions = true
+
+func _on_hitParticles_animation_finished(_anim_name):
+	hitParticles.hide()

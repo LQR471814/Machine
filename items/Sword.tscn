@@ -26,6 +26,7 @@ spritePath = "res://assets/items/sword_0/Sword_0.png"
 onBack = true
 durability = 100.0
 damage = 10.0
+item_category = "MELEE_WEAPON"
 
 [node name="Item" type="Area2D" parent="."]
 scale = Vector2( 0.75, 0.75 )

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/weak_enemy_run-0.png-4bbf8766301ee7451d0e6eb65eb0c4e4.stex"
+path="res://.import/spark_0-3.png-73cc0ad5a29aad9c183ed66021ba4a50.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/weak_enemy/run/weak_enemy_run-0.png"
-dest_files=[ "res://.import/weak_enemy_run-0.png-4bbf8766301ee7451d0e6eb65eb0c4e4.stex" ]
+source_file="res://assets/particles/spark_0/spark_0-3.png"
+dest_files=[ "res://.import/spark_0-3.png-73cc0ad5a29aad9c183ed66021ba4a50.stex" ]
 
 [params]
 

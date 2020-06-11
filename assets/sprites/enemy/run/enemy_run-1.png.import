@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/weak_enemy_run-2.png-434e938ecf4288d12214a5fa0993c54c.stex"
+path="res://.import/enemy_run-1.png-4245109e9e36950dc9b89910142e37a7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/weak_enemy/run/weak_enemy_run-2.png"
-dest_files=[ "res://.import/weak_enemy_run-2.png-434e938ecf4288d12214a5fa0993c54c.stex" ]
+source_file="res://assets/sprites/enemy/run/enemy_run-1.png"
+dest_files=[ "res://.import/enemy_run-1.png-4245109e9e36950dc9b89910142e37a7.stex" ]
 
 [params]
 
