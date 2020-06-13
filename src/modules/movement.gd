@@ -1,6 +1,6 @@
-extends Node
+extends Player
 
-func onCrouch(runCollider, crouchCollider, sprite, handItemSprite, animationPlayer, input):
+func onCrouch(input):
 	runCollider.disabled = true
 	crouchCollider.disabled = false
 	
@@ -8,7 +8,7 @@ func onCrouch(runCollider, crouchCollider, sprite, handItemSprite, animationPlay
 	
 	if input != 0:
 		sprite.flip_h = input < 0
-		flipRays(input)
+		utils.flipRays(input)
 	
 	handItemSprite.flip_h = input < 0
 	if sprite.flip_h == true:
@@ -17,3 +17,5 @@ func onCrouch(runCollider, crouchCollider, sprite, handItemSprite, animationPlay
 	
 	sprite.animation = "Crouch"
 	sprite.playing = true
+	
+	animationPlayer.stop()

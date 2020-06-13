@@ -30,7 +30,7 @@ func _on_Join_button_down():
 	var ip = multiplayerDialog.get_node("HBoxContainer/VBoxContainer/IpInput/IpInput/LineEdit").text
 	var port = multiplayerDialog.get_node("HBoxContainer/VBoxContainer/PortInput/PortInput/LineEdit").text
 	connectToServer(ip, port)
-		
+	
 func connectToServer(ip, port):
 	var clientSocket = StreamPeerTCP.new()
 	clientSocket.connect_to_host(ip, int(port))

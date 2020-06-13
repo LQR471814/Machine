@@ -1,5 +1,7 @@
 extends Area2D
 
+class_name ItemScript
+
 var itemObject
 const itemCategories = {"STATIC": 0, "MELEE_WEAPON": 1}
 
@@ -7,7 +9,7 @@ func _ready():
 	var itemCategory = itemCategories[get_parent().item_category]
 	
 	#? Construct object based off of item configuration
-	itemObject = preload("res://src/Item.gd").new(get_parent().type, get_parent().durability, get_parent().damage, get_parent().spritePath, get_parent().held, get_parent().onBack, get_parent().scenePath, itemCategory)
+	itemObject = load("res://src/controllers/item/Item.gd").new(get_parent().type, get_parent().durability, get_parent().damage, get_parent().spritePath, get_parent().held, get_parent().onBack, get_parent().scenePath, itemCategory)
 	
 	#? Misc Configuration
 	self.scale = Vector2(0.75, 0.75)

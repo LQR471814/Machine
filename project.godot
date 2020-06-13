@@ -12,10 +12,28 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "Item",
 "language": "GDScript",
-"path": "res://src/Item.gd"
+"path": "res://src/controllers/item/Item.gd"
+}, {
+"base": "RigidBody2D",
+"class": "ItemRigidBody",
+"language": "GDScript",
+"path": "res://src/controllers/item/ItemRigidBody.gd"
+}, {
+"base": "Area2D",
+"class": "ItemScript",
+"language": "GDScript",
+"path": "res://src/controllers/item/ItemScript.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://src/controllers/Player.gd"
 } ]
 _global_script_class_icons={
-"Item": ""
+"Item": "",
+"ItemRigidBody": "",
+"ItemScript": "",
+"Player": ""
 }
 
 [application]

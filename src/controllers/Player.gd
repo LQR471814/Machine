@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+class_name Player
+
 signal PlayerCollide(motionVector, target_node)
 signal PlayerAttack(inflicted_knockback, target_node)
 
@@ -33,20 +35,20 @@ var playerSocket = null
 var exitedCollisions = false
 var quit = false
 
-onready var sprite = $Sprite
-onready var runCollider = $RunCollision
-onready var crouchCollider = $CrouchCollision
-onready var animationPlayer = $Animations
-onready var dashTimer = $DashTimer
-onready var dashEffectLeft = $DashEffectLeft
-onready var dashEffectRight = $DashEffectRight
-onready var helpGui = $Help
-onready var backItemSprite = $BackItemSprite
-onready var handItemSprite = $HandItemSprite
-onready var collisionDirection = $CollisionDirection
-onready var attackRay = $AttackRay
-onready var raycasts = [$CollisionDirection, $AttackRay]
-onready var hitParticles = get_parent().get_node("HitParticles")
+var sprite
+var runCollider
+var crouchCollider
+var animationPlayer
+var dashTimer
+var dashEffectLeft
+var dashEffectRight
+var helpGui
+var backItemSprite
+var handItemSprite
+var collisionDirection
+var attackRay
+var raycasts
+var hitParticles
 
 var invSlotActions = ["inv_slot_0", "inv_slot_1", "inv_slot_2", "inv_slot_3", "inv_slot_4", "inv_slot_5"]
 var toggledHelp = -1
@@ -54,7 +56,29 @@ var itemBar = [null, null, null, null, null, null]
 var selected_item = 0
 var pickupImmunity = 0
 
+var properties
+
+#? Modules
+var utils = preload("res://src/modules/utils.gd").new()
+var movement = preload("res://src/modules/movement.gd").new()
+var raycast = preload("res://src/modules/raycast.gd").new()
+
 func _ready():
+	sprite = $Sprite
+	runCollider = $RunCollision
+	crouchCollider = $CrouchCollision
+	animationPlayer = $Animations
+	dashTimer = $DashTimer
+	dashEffectLeft = $DashEffectLeft
+	dashEffectRight = $DashEffectRight
+	helpGui = $Help
+	backItemSprite = $BackItemSprite
+	handItemSprite = $HandItemSprite
+	collisionDirection = $CollisionDirection
+	attackRay = $AttackRay
+	raycasts = [$CollisionDirection, $AttackRay]
+	hitParticles = get_parent().get_node("HitParticles")
+	
 	crouchCollider.disabled = true
 	runCollider.disabled = false
 	get_node("Cooldowns/Container/Cooldowns/DashCooldown/DashMargin/DashCooldown").animation = "DashReady"
@@ -62,13 +86,7 @@ func _ready():
 	switchItem(selected_item)
 	
 	#? Raycast exceptions
-	for ray in raycasts:
-		ray.add_exception(get_parent().get_node("Map/TileMap"))
-		ray.add_exception(get_node("Collisions"))
-		for child in get_parent().get_node("Map/Items").get_children():
-			ray.add_exception(child)
-	for child in get_parent().get_node("Map/Enemies").get_children():
-		enemies.append(child)
+	raycast.addRayExceptions()
 
 func _physics_process(delta):
 	var input = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
@@ -120,24 +138,8 @@ func _physics_process(delta):
 				if Input.is_action_pressed("dash") and Input.is_action_pressed("ui_left") or Input.is_action_pressed("dash") and Input.is_action_pressed("ui_right"): #? If user dashed	
 					onDash(input)
 			
-			runCollider.disabled = true
-			crouchCollider.disabled = false
+			movement.onCrouch()
 			
-			handItemSprite.get_node("Animations").play("idle")
-			
-			if input != 0:
-				sprite.flip_h = input < 0
-				flipRays(input)
-			
-			handItemSprite.flip_h = input < 0
-			if sprite.flip_h == true:
-				handItemSprite.position.x = handItemSprite.position.x * -1
-				handItemSprite.flip_h = true
-			
-			sprite.animation = "Crouch"
-			sprite.playing = true
-			
-			animationPlayer.stop()
 		elif Input.is_action_pressed("ui_down") == false: #? If not crouching
 			if is_on_floor(): #? If on floor
 				
@@ -179,10 +181,12 @@ func _physics_process(delta):
 					motion.x = input * MAX_SPEED
 					
 					#? Replace crouch visuals with run visuals if running
+					raycast.flipRays(input)
+					
 					sprite.flip_h = input < 0 #? Flip sprite according to direction
-					flipRays(input)
 					sprite.animation = "Run"
 					sprite.playing = true
+					
 					animationPlayer.play("Run")
 					
 					handItemSprite.flip_h = input < 0
@@ -204,7 +208,7 @@ func _physics_process(delta):
 					motion.x = input * MAX_SPEED
 						
 					sprite.flip_h = input < 0 #? Flip sprite according to direction
-					flipRays(input)
+					raycast.flipRays(input)
 					backItemSprite.flip_h = input < 0
 					
 					if (input < 0) == true and motion.x != 0:
@@ -316,7 +320,7 @@ func onDash(input):
 		dashEffectLeft.emitting = true
 	
 	sprite.flip_h = input < 0 #? Flip sprite according to direction
-	flipRays(input)
+	raycast.flipRays(input)
 	motion.x = DASH_FORCE * input / DASH_FRAMES #? Apply dash force
 	canDash = false
 	dashTimer.wait_time = DASH_WAIT_TIME
@@ -398,10 +402,6 @@ func attackFrame(delta, input):
 	
 	motion.y += GRAVITY * delta #? Apply gravity
 	motion = move_and_slide(motion, Vector2.UP, false, 4, 0.785398, false)
-
-func flipRays(input):
-	collisionDirection.scale.x = input
-	attackRay.scale.x = input
 
 func init(init_socket):
 	playerSocket = init_socket

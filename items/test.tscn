@@ -1,8 +1,11 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/items/test/test_item.png" type="Texture" id=1]
-[ext_resource path="res://src/ItemScript.gd" type="Script" id=2]
-[ext_resource path="res://src/ItemRigidBody.gd" type="Script" id=3]
+[ext_resource path="res://src/controllers/item/ItemScript.gd" type="Script" id=2]
+[ext_resource path="res://src/controllers/item/ItemRigidBody.gd" type="Script" id=3]
+
+
+
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {

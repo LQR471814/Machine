@@ -1,5 +1,7 @@
 extends RigidBody2D
 
+class_name ItemRigidBody
+
 export var scenePath : String
 export var spritePath : String
 export var held : bool

@@ -8,7 +8,7 @@
 [ext_resource path="res://assets/tiles/Staircase_1/Staircase_1-3.png" type="Texture" id=6]
 [ext_resource path="res://items/test.tscn" type="PackedScene" id=7]
 [ext_resource path="res://enemies/Enemy_Weak.tscn" type="PackedScene" id=8]
-[ext_resource path="res://src/Map.gd" type="Script" id=9]
+[ext_resource path="res://src/structure/Map.gd" type="Script" id=9]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
