@@ -1,0 +1,750 @@
+@startuml Player Script
+
+skinparam activity {
+    FontName Calibri
+    FontSize 15
+    DiamondFontSize 14
+    DiamondBackgroundColor #cdf29d
+    ArrowFontSize 14
+    ArrowFontStyle bold
+    ArrowFontColor #ff6666
+}
+
+start
+
+partition "Color Key" {
+if (conditional) then (var)
+    :variable assignment;
+else (func)
+    #bfe2ff:function call/
+endif
+}
+
+partition "Variable Definition" {
+    partition "CONSTANTS" {
+        note left
+            **Note**
+            ====
+            These variables are constant,
+            they cannot be changed..
+        endnote
+
+        :ACCELERATION = 1024;
+
+        note right
+        **ACCELERATION** 
+        Currently **UNUSED**
+
+        Originally it defined
+        the speed of which the
+        player would accelerate
+        to max speed however it
+        was scrapped for tighter
+        controls.
+        ====
+        **type: int**
+        **default: 1024**
+        endnote
+
+        :MAX_SPEED = 150;
+
+        note right
+        **MAX_SPEED** defines the 
+        speed that the player runs 
+        at.
+
+        Originally it defined the
+        maximum speed the player 
+        could accelerate to
+        but I decided to scrap
+        acceleration for tighter
+        controls.
+        ====
+        **type: int**
+        **default: 150**
+        endnote
+
+        :FRICTION = 1;
+
+        note right
+        **FRICTION** defines the
+        friction of the floor
+        ====
+        **type: float**
+        **default: 1.0**
+        endnote
+
+        :AIR_RESISTENCE = 0.1;
+
+        note right
+        **AIR_RESISTENCE** defines
+        the friction of the player
+        moving in the air.
+        ====
+        **type: float**
+        **default: 0.1**
+        endnote
+
+        :GRAVITY = 300;
+
+        note right
+        **GRAVITY** defines the
+        strength of the gravity
+        applied upon the player.
+        ====
+        **type: int**
+        **default: 300**
+        endnote
+
+        :JUMP_FORCE = 140;
+
+        note right
+        **JUMP_FORCE** defines
+        the force of the player
+        jump that will be applied
+        upwards.
+        ====
+        **type: int**
+        **default: 140**
+        endnote
+
+        :DASH_FORCE = 5000;
+
+        note right
+        **DASH_FORCE** defines
+        the force of the player
+        dash ability.
+        ====
+        **type: int**
+        **default: 5000**
+        endnote
+
+        :DASH_UP_FORCE = 30;
+
+        note right
+        **DASH_UP_FORCE** defines
+        the force of the player
+        dash ability that will
+        be applied upwards
+        every frame during the
+        dash sequence.
+        ====
+        **type: int**
+        **default: 30**
+        endnote
+
+        :DASH_FRAMES = 10;
+
+        note right
+        **DASH_FRAMES** defines
+        the amount of frames the
+        dash sequence will last.
+        ====
+        **type: int**
+        **default: 10**
+        endnote
+
+        :FALL_THRESH = 100;
+
+        note right
+        **FALL_THRESH** defines
+        the amount of force downwards
+        to be considered "falling"
+
+        Used for default run / jump
+        sprite to fall sprite.
+        ====
+        **type: int**
+        **default: 100**
+        endnote
+
+        :ATTACK_FRAMES = 10;
+
+        note right
+        **ATTACK_FRAME** defines
+        the amount of frames the
+        attack sequence should last
+        for.
+        ====
+        **type: int**
+        **default: 10**
+        endnote
+
+        :MELEE_KNOCKBACK = Vector2(200, 50);
+
+        note right
+        **MELEE_KNOCKBACK** defines
+        the amount of knockback to
+        be applied to an enemy hit
+        by a swing.
+        ====
+        **type: Vector2**
+        **default: (200, 50)**
+        endnote
+        
+        :SPRINT_THRESH = 20;
+
+        note right
+        **SPRINT_THRESH**
+        Currently **UNUSED**
+
+        Originally defined the
+        threshold until a "walk"
+        would be considered a "run"
+        was used when acceleration
+        was still a thing. Now,
+        everything is considered a
+        "run".
+        ====
+        **type: int**
+        **default: 20**
+        endnote
+
+        :DASH_WAIT_TIME = 2;
+
+        note right
+        **DASH_WAIT_TIME**
+        defines the cooldown time
+        in seconds of the dash 
+        ability.
+        ====
+        **type: int**
+        **default: 2**
+        endnote
+
+        :PICKUP_IMMUNITY = 20;
+        
+        note right
+        **PICKUP_IMMUNITY**
+        defines the amount of
+        frames which the player
+        cannot pick up any after
+        dropping one.
+        ====
+        **type: int**
+        **default: 20**
+        endnote
+    }
+
+    partition "Variables" {
+        note left
+            **Note**
+            ====
+            These variables are changing
+            they are not constant.
+        endnote
+            
+        :input;
+
+        note right
+            **input** defines which 
+            direction (left or right)
+            the player has decided 
+            to move.
+            ====
+            **type: int**
+        endnote
+
+        :pickupItemImmunity;
+
+        note right
+            **pickupItemImmunity** defines
+            the current amount of frames
+            the player cannot pick up
+            any items
+            ====
+            **type: int**
+        endnote
+
+        :attackHit;
+
+        note right
+            **attackHit** defines
+            whether or not the last
+            attack attempted by the
+            player has hit.
+            ====
+            **type: bool**
+        endnote
+
+        :attackingFrames;
+
+        note right
+            **attackingFrames** defines
+            the number of frames the 
+            attack has lasted for and
+            will stop the attack when
+            reaching zero
+            ====
+            **type: int**
+        endnote
+
+        :currentTargetedEnemy;
+
+        note right
+            **currentTargetedEnemy** defines
+            the current enemy node that is
+            being attacked and stores it in
+            a global veriable
+            ====
+            **type: KinematicBody2D**
+        endnote
+
+        :dashedFrames = 0;
+
+        note right
+            **dashedFrames** defines
+            the amount of frames that
+            the dash sequence will 
+            currently last for.
+            ====
+            **type: int**
+            **default: 0**
+        endnote
+
+        :enemies = [];
+
+        note right
+            **enemies** defines
+            the list of enemies that
+            exist in the current map
+            the player is in.
+            ====
+            **type: KinematicBody2D[]**
+            **default: []**
+        endnote
+
+        :motion = Vector2.ZERO;
+
+        note right
+            **motion** defines
+            the current motion that
+            the player is moving in
+            and will move in every
+            frame.
+            ====
+            **type: Vector2**
+            **default: (0, 0)**
+        endnote
+
+        :canDash = true;
+
+        note right
+            **canDash** defines
+            if the player is allowed
+            to dash at the moment.
+
+            Used in dash cooldown.
+            ====
+            **type: bool**
+            **default: true**
+        endnote
+
+        :playerSocket = null;
+
+        note right
+            **playerSocket** 
+            Currently **UNUSED**
+            
+            Until I make multiplayer
+            
+            Will define the socket
+            that will send movement
+            packets from player to
+            server.
+            ====
+            **type: TCPSocket**
+            **default: null**
+        endnote
+
+        :exitedCollisions = true;
+
+        note right
+            **exitedCollisions**
+            defines whether or not
+            the player is colliding
+            with an enemy or not.
+            ====
+            **type: bool**
+            **default: true**
+        endnote
+
+        :invSlotActions = [
+    "inv_slot_0", 
+    "inv_slot_1",
+    "inv_slot_2",
+    "inv_slot_3",
+    "inv_slot_4",
+    "inv_slot_5"
+    ];
+
+        note right
+            **invSlotActions**
+            defines the names of
+            each key that will be
+            bound to each inventory
+            slot.
+            ====
+            **type: str[]**
+            **default:** ["inv_slot_0", 
+                        "inv_slot_1",
+                        "inv_slot_2",
+                        "inv_slot_3",
+                        "inv_slot_4",
+                        "inv_slot_5"]
+        endnote
+
+        :itemBar = [null, null, null, null, null, null];
+
+        note right
+            **itemBar** defines the
+            list of current items in
+            the player's inventory.
+            ====
+            **type: CustomClass:Item[]**
+            **default:** [null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null]
+        endnote
+
+        :toggledHelp = -1;
+
+        note right
+            **toggledHelp** defines
+            whether or not the player
+            has toggled the help menu.
+            ====
+            **type: int**
+            **default: -1**
+        endnote
+
+        :selected_item = 0;
+
+        note right
+            **selected_item** defines
+            the index of the current
+            selected item in the
+            inventory.
+            ====
+            **type: int**
+            **default: 0**
+        endnote
+
+        :pickupImmunity = 0;
+
+        note right
+            **pickupImmunity** defines
+            the current amount of frames
+            the player will not be able
+            to pick up any itmes.
+            ====
+            **type: int**
+            **default: 0**
+        endnote
+    }
+
+    partition "Onready Variables" {
+        note left
+            **Note**
+            ====
+            Onready variables are
+            variables defined when the
+            Node that is using this script
+            is ready.
+        endnote
+        
+        :sprite = $Sprite;
+
+        note right
+            **sprite** defines
+            the player sprite that
+            is currently being shown.
+            ====
+            **type: AnimatedSprite2D**
+        endnote
+
+        :runCollider = $RunCollision;
+
+        note right
+            **runCollider** defines
+            the collision capsule that will
+            be used when running or
+            jumping.
+            ====
+            **type: CollisionShape2D**
+        endnote
+
+        :crouchCollider = $CrouchCollision;
+
+        note right
+            **crouchCollider** defines
+            the collision capsule that
+            will be used when crouching.
+            ====
+            **type: CollisionShape2D** 
+        endnote
+
+        :animationPlayer = $Animations;
+
+        note right
+            **animationPlayer** defines
+            the Animation Player that will
+            bob the player and back items
+            up and down while running.
+            ====
+            **type: AnimationPlayer**
+        endnote
+
+        :dashTimer = $DashTimer;
+
+        note right
+            **dashTimer** defines
+            the Timer node that will
+            time the dash cooldown in
+            the background.
+            ====
+            **type: Timer**
+        endnote
+
+        :dashEffectLeft = $DashEffectLeft;
+
+        note right
+            **dashEffectLeft** defines
+            the Particles2D node that will
+            emit when the player is dashing 
+            left.
+            ====
+            **type: Particles2D**
+        endnote
+
+        :dashEffectRight = $DashEffectRight;
+
+        note right
+            **dashEffectRight** defines
+            the Particles2D node that will
+            emit when the player is dashing
+            right.
+            ====
+            **type: Particles2D**
+        endnote
+
+        :helpGui = $Help;
+
+        note right
+            **helpGui** defines the help
+            GUI scene instance that will
+            show when the player presses
+            [F1].
+            ====
+            **type: MarginContainer**
+        endnote
+
+        :backItemSprite = $BackItemSprite;
+
+        note right
+            **backItemSprite** defines
+            the sprite that holds the
+            texture that shall be displayed
+            on the back of the player 
+            character.
+            ====
+            **type: Sprite**
+        endnote
+
+        :handItemSprite = $HandItemSprite;
+        note right
+            **handItemSprite** defines
+            the sprite sprite that holds
+            the texture that shall be displayed
+            in the hand of the player character.
+            ====
+            **type: Sprite**
+        endnote
+        
+        :collisionDirection = $CollisionDirection;
+
+        note right
+            **CollisionDirection**
+            defines the raycast that
+            will tell what direction
+            the player has collided with
+            and enemy or if they have
+            collided at all.
+            ====
+            **type: RayCast2D**
+        endnote
+
+        :attackRay = $AttackRay;
+
+        note right
+            **attackRay** defines
+            the raycast that will
+            tell if player swing
+            has hit.
+            ====
+            **type: RayCast2D**
+        endnote
+
+        :raycasts = [$CollisionDirection, $AttackRay];
+
+        note right
+            **raycasts** defines
+            all the raycasts that
+            will be flipping while
+            the player moves left
+            and right.
+            ====
+            **type: RayCast2D**
+        endnote
+
+        :hitParticles = get_parent().get_node("HitParticles");
+
+        note right
+            **hitParticles** defines
+            the Sprite Node that
+            controls the hit particles.
+            ====
+            **type: Sprite**
+        endnote
+    }
+}
+
+partition "_physics_process" {
+    :assign left/right player input to var input;
+
+    #bfe2ff:check_and_handle_item_drop()/
+
+    partition "if pickup item immunity has started" {
+    if (pickupItemImmunity) then (> 0)
+        :pickupItemImmunity -= 1;
+        note right
+        Subtract 1 frame from
+        pickup immunity time
+        endnote
+    endif
+    }
+    
+    partition "if attack swing has hit" {
+    if (attackHit) then (true)
+        if (attackingFrames) then (not == 0)
+            #bfe2ff:attackFrame()/
+            note left
+            Call attack 
+            frame process
+            then return
+            endnote
+            detach
+        else (else)
+            partition "If attack sequence finished" {
+            :attackHit = false;
+            :currentTargetedEnemy = false;
+            #bfe2ff:backItemSprite.show()/
+            }
+
+        endif
+    endif
+    }
+
+    :itemSwitch = checkForItemSwitch();
+
+    note right
+    Check if player has switched item
+    and which item they switched to.
+    Will be -1 if user hasn't switched
+    items.
+    endnote
+
+    partition "If player has switched items" {
+    if (itemSwitch) then (!= -1)
+        #bfe2ff:switchItem()/
+        #bfe2ff:setItemSprite()/
+        note right
+        Set hand sprite / back 
+        sprite depending on item
+        endnote
+
+    endif
+    }
+
+    partition "If player has swung" {
+    note right
+    Note
+    ====
+    Swung means the player
+    has attacked but it is
+    uncertain whether it has hit.
+    endnote
+    if (Input.is_action_just_pressed("attack")) then (true)
+        :attackHit = onAttack(itemBar[selected_item], item);
+
+        partition "If player has hit" {
+        if (attackHit) then (true)
+            :attackingFrames = ATTACK_FRAMES;
+        endif
+        }
+    endif
+    }
+
+    partition "If player has toggled help" {
+        if (Input.is_action_just_pressed("help")) then (true)
+            note right
+            if **toggledHelp**
+            is positive, show
+            help and hide if
+            negative.
+            endnote
+            :toggledHelp*=-1;
+        endif
+    }
+
+    partition "Check and logic for Toggle Help" {
+        if (toggledHelp) then (positive)
+            :helpGui.visible = true;
+        else (negative)
+            :helpGui.visible = false;
+        endif
+    }
+    
+    partition "Movement" {
+        if (dashedFrames) then (!= 0)
+            #bfe2ff:dashFrame(input, delta)/
+            note left
+            Call dashFrame() 
+            for each frame 
+            dashed
+            endnote
+        else
+            partition "If not dashing, or finished" {
+                :dashEffectLeft.emitting = false;
+                :dashEffectRight.emitting = false;
+                note right
+                Stop particle emitters
+                directions left and
+                right from emitting dash
+                particles.
+                endnote
+
+                if (Input.is_action_just_pressed("ui_down")) then (true)
+                    partition "If Crouching" {
+
+                    }
+                endif
+            }
+        endif
+    }
+    
+}
+
+partition "gameProcess" {
+    repeat :gameprocess]
+        #bfe2ff:_physics_process(delta)/
+    repeat while (running) is (true)
+    ->false;
+}
+
+stop
+
+@enduml

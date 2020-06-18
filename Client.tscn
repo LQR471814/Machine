@@ -72,25 +72,25 @@ animations = [ {
 "name": "Fall",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 9 ) ],
-"loop": true,
-"name": "Crouch",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 27 ), ExtResource( 11 ), ExtResource( 15 ), ExtResource( 6 ) ],
 "loop": true,
 "name": "Run",
 "speed": 8.0
 }, {
-"frames": [ ExtResource( 30 ) ],
-"loop": true,
-"name": "Acceleration",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 5 ), ExtResource( 34 ), ExtResource( 4 ), ExtResource( 37 ), ExtResource( 35 ) ],
 "loop": false,
 "name": "Sword_attack",
 "speed": 32.0
+}, {
+"frames": [ ExtResource( 9 ) ],
+"loop": true,
+"name": "Crouch",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 30 ) ],
+"loop": true,
+"name": "Acceleration",
+"speed": 5.0
 } ]
 
 [sub_resource type="Animation" id=7]
@@ -336,6 +336,9 @@ tracks/0/keys = {
 
 [node name="World" type="Node2D"]
 script = ExtResource( 32 )
+__meta__ = {
+"_edit_vertical_guides_": [  ]
+}
 
 [node name="Map" parent="." instance=ExtResource( 1 )]
 

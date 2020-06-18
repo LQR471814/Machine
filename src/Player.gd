@@ -17,9 +17,8 @@ const FALL_THRESH = 100
 const ATTACK_FRAMES = 10
 const MELEE_KNOCKBACK = Vector2(200, 50)
 var dashedFrames = 0
-var attackFrames = 0
-var attacking = false
-var hit = false
+var attackingFrames = 0
+var attackHit = false
 var enemies = []
 var currentTargetedEnemy
 
@@ -30,8 +29,7 @@ const PICKUP_IMMUNITY = 20
 var motion = Vector2.ZERO
 var canDash = true
 var playerSocket = null
-var exitedCollisions = false
-var quit = false
+var exitedCollisions = true
 
 onready var sprite = $Sprite
 onready var runCollider = $RunCollision
@@ -78,13 +76,12 @@ func _physics_process(delta):
 	if pickupImmunity > 0: #? Subtract 1 frame from pickup immunity time
 		pickupImmunity -= 1
 	
-	if attacking == true: #? If attacking
-		if attackFrames != 0: #? If currently attacking
+	if attackHit == true: #? If attackHit
+		if attackingFrames != 0: #? If currently attackHit
 			attackFrame(delta, input)
 			return
 		else: #? If finished attack sequence
-			attacking = false
-			hit = false
+			attackHit = false
 			currentTargetedEnemy = null
 			backItemSprite.show()
 	
@@ -94,13 +91,13 @@ func _physics_process(delta):
 		setItemSprite()
 	
 	if Input.is_action_just_pressed("attack"): #? Check for attack
-		attacking = onAttack(itemBar[selected_item], input)
-		if attacking == true: #? If hit
-			attackFrames = ATTACK_FRAMES
+		attackHit = onAttack(itemBar[selected_item], input)
+		if attackHit == true: #? If hit
+			attackingFrames = ATTACK_FRAMES
 			return
 	
 	if Input.is_action_just_pressed("help"): #? Check for toggle help
-		toggledHelp = toggledHelp * -1
+		toggledHelp *= -1
 	
 	if toggledHelp > 0:
 		helpGui.visible = true
@@ -341,7 +338,6 @@ func onAttack(item, input):
 			for enemy in enemies:
 				if attackRay.get_collider() == enemy.get_node("AttackHitbox"): #? If attack is successful
 					currentTargetedEnemy = enemy
-					hit = true
 					hitParticles.position = enemy.position
 					hitParticles.show()
 					hitParticles.get_node("animation").play("spark")
@@ -382,7 +378,7 @@ func attackFrame(delta, input):
 	if currentTargetedEnemy != null:
 		hitParticles.position = currentTargetedEnemy.position
 	
-	attackFrames -= 1
+	attackingFrames -= 1
 	
 	if input == 0: #? If no input (Friction applier)
 		motion.x = lerp(motion.x, 0, FRICTION)
@@ -391,7 +387,7 @@ func attackFrame(delta, input):
 		if Input.is_action_just_pressed("ui_up"): #? If jumping
 			motion.y = -JUMP_FORCE
 	
-	if hit == true:
+	if attackHit == true:
 		motion.x = input * MAX_SPEED / 3
 	else:
 		motion.x = input * MAX_SPEED

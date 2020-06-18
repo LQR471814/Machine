@@ -1,0 +1,19 @@
+@startuml
+
+start
+
+:Set Start Animation;
+
+:Set Start Animation Speed;
+
+:Switch item to default slot;
+
+repeat :for each ray in raycasts;
+    :add ray exception TileMap;
+    :add ray exception Player Kinematic Collision Hitbox;
+    repeat :for each item in items>
+        :add ray exception item;
+
+stop
+
+@enduml
